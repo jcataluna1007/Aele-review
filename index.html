@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta name="theme-color" content="#0E0E16"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="AELE Review"/>
+<meta name="description" content="PRC Aeronautical Engineer Licensure Exam Review Plan"/>
+<link rel="manifest" href="manifest.json"/>
+<title>AELE Review Plan</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  :root {
+    --bg: #0E0E16; --bg2: #12121E; --bg3: #141420; --bg4: #10101A;
+    --border: #1E1E30; --border2: #1A1A28;
+    --text: #F0EEFF; --text2: #A0A0C8; --text3: #7070A0; --text4: #555580; --text5: #444466;
+    --c0: #38BDF8; --c1: #F97316; --c2: #A78BFA; --c3: #4ADE80; --c4: #FB7185; --c5: #FBBF24;
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --nav-h: 64px;
+  }
+  html, body { height: 100%; background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; overflow: hidden; }
+
+  /* ── SCREENS ── */
+  #app { display: flex; flex-direction: column; height: 100dvh; height: 100vh; }
+
+  /* Header */
+  #header {
+    background: var(--bg2);
+    padding: 14px 16px 10px;
+    border-bottom: 2px solid var(--c0);
+    transition: border-color 0.3s;
+    flex-shrink: 0;
+  }
+  #header-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  #header-label { font-size: 9px; letter-spacing: .3em; color: var(--text5); text-transform: uppercase; font-family: monospace; margin-bottom: 3px; }
+  #header-title { font-size: 17px; font-weight: 700; color: var(--text); line-height: 1.25; }
+  #header-title span { transition: color .3s; }
+  #header-sub { font-size: 10px; color: var(--text5); font-family: monospace; margin-top: 3px; }
+  /* Ring */
+  #ring-wrap { flex-shrink: 0; text-align: center; }
+  #ring-label { font-size: 9px; color: var(--text5); font-family: monospace; margin-top: 2px; }
+  #progress-ring { display: block; }
+  #ring-track { fill: none; stroke: #1E1E30; stroke-width: 5; }
+  #ring-fill { fill: none; stroke-width: 5; stroke-linecap: round; transform: rotate(-90deg); transform-origin: 50% 50%; transition: stroke-dashoffset .5s ease, stroke .3s; }
+  #ring-text { font-size: 13px; font-weight: bold; font-family: monospace; fill: var(--text); }
+
+  /* Weight bar */
+  #weight-bar { display: flex; height: 5px; border-radius: 3px; overflow: hidden; gap: 2px; margin-top: 10px; }
+  .wb-seg { border-radius: 2px; cursor: pointer; transition: opacity .2s; }
+
+  /* ── MAIN SCROLL AREA ── */
+  #scroll-area {
+    flex: 1; overflow-y: auto; overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: calc(var(--nav-h) + var(--safe-bottom) + 8px);
+  }
+
+  /* Subject view */
+  #subject-view { padding: 14px 14px 0; }
+  #subj-header { margin-bottom: 14px; padding-bottom: 12px; }
+  #subj-header-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  #subj-icon { font-size: 22px; }
+  #subj-badge { font-size: 9px; font-family: monospace; letter-spacing: .2em; color: var(--text4); text-transform: uppercase; }
+  #subj-name { font-size: 18px; font-weight: 700; color: var(--text); }
+  #subj-obj { font-size: 12px; color: var(--text3); font-style: italic; line-height: 1.6; }
+
+  /* Topic cards */
+  .topic-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 7px; transition: border-color .2s; }
+  .topic-card.open { border-color: rgba(255,255,255,.15); }
+  .topic-btn {
+    display: flex; align-items: center; justify-content: space-between;
+    width: 100%; padding: 13px 12px; background: var(--bg3);
+    border: none; text-align: left; cursor: pointer; color: var(--text); transition: background .2s;
+    -webkit-tap-highlight-color: transparent;
+    min-height: 52px;
+  }
+  .topic-btn:active { opacity: .8; }
+  .topic-card.open .topic-btn { background: #141428; }
+  .topic-btn-left { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+  .topic-num {
+    width: 24px; height: 24px; border-radius: 5px; flex-shrink: 0;
+    background: var(--border); display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-family: monospace; font-weight: bold; color: var(--text4); transition: all .2s;
+  }
+  .topic-num.done { color: #0E0E16; }
+  .topic-name { font-size: 13.5px; color: var(--text2); font-weight: 500; line-height: 1.3; }
+  .topic-card.open .topic-name { color: var(--text); font-weight: 600; }
+  .topic-btn-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; margin-left: 8px; }
+  .topic-mini-bar { height: 3px; width: 36px; background: var(--border); border-radius: 2px; overflow: hidden; }
+  .topic-mini-fill { height: 100%; border-radius: 2px; transition: width .3s; }
+  .topic-count { font-size: 10px; color: var(--text4); font-family: monospace; }
+  .topic-chevron { font-size: 10px; transition: transform .2s; display: inline-block; }
+  .topic-card.open .topic-chevron { transform: rotate(180deg); }
+
+  /* Subtopics */
+  .subtopics { background: var(--bg4); padding: 4px 12px 10px 46px; border-top: 1px solid var(--border2); }
+  .sub-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 9px 0; cursor: pointer; border-bottom: 1px solid #16162A;
+    -webkit-tap-highlight-color: transparent;
+    min-height: 44px;
+  }
+  .sub-item:last-child { border-bottom: none; }
+  .sub-item:active { opacity: .7; }
+  .sub-check {
+    width: 18px; height: 18px; border-radius: 4px; flex-shrink: 0; margin-top: 1px;
+    border: 1.5px solid #2E2E48; background: transparent;
+    display: flex; align-items: center; justify-content: center;
+    transition: all .15s; font-size: 10px; color: #0E0E16; font-weight: bold;
+  }
+  .sub-check.checked { }
+  .sub-label { font-size: 13px; color: var(--text2); line-height: 1.5; transition: all .15s; }
+  .sub-label.done { color: #333355; text-decoration: line-through; }
+
+  /* References */
+  .refs-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 14px; }
+  .refs-btn {
+    display: flex; align-items: center; justify-content: space-between;
+    width: 100%; padding: 12px 12px; background: var(--bg3);
+    border: none; text-align: left; cursor: pointer; color: var(--text3);
+    font-size: 11px; font-family: monospace; letter-spacing: .1em; text-transform: uppercase;
+    min-height: 44px;
+  }
+  .refs-chevron { font-size: 10px; transition: transform .2s; display: inline-block; }
+  .refs-open .refs-chevron { transform: rotate(180deg); }
+  .refs-body { background: var(--bg4); padding: 6px 12px 10px; border-top: 1px solid var(--border2); }
+  .ref-item { font-size: 12px; color: var(--text3); font-style: italic; padding: 5px 0; border-bottom: 1px dashed var(--border2); line-height: 1.5; }
+  .ref-item:last-child { border-bottom: none; }
+
+  /* ── BOTTOM NAV ── */
+  #bottom-nav {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    height: calc(var(--nav-h) + var(--safe-bottom));
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    display: flex; align-items: stretch;
+    padding-bottom: var(--safe-bottom);
+    z-index: 100;
+    overflow-x: auto; overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  #bottom-nav::-webkit-scrollbar { display: none; }
+  .nav-btn {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    flex: 1; min-width: 56px; padding: 6px 4px;
+    background: transparent; border: none; cursor: pointer; gap: 3px;
+    border-top: 2px solid transparent; transition: border-color .2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .nav-btn:active { opacity: .7; }
+  .nav-btn.active { border-top-color: var(--text); /* overridden by JS */ }
+  .nav-icon { font-size: 16px; line-height: 1; }
+  .nav-label { font-size: 8px; font-family: monospace; letter-spacing: .05em; color: var(--text5); text-transform: uppercase; white-space: nowrap; }
+  .nav-btn.active .nav-label { color: var(--text); }
+  .nav-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--text5); margin-top: 1px; }
+  .nav-btn.active .nav-dot { }
+
+  /* Animate in */
+  @keyframes fadeUp { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: none; } }
+  #subject-view { animation: fadeUp .2s ease; }
+
+  /* Scrollbar */
+  #scroll-area::-webkit-scrollbar { width: 3px; }
+  #scroll-area::-webkit-scrollbar-track { background: transparent; }
+  #scroll-area::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+</style>
+</head>
+<body>
+<div id="app">
+  <header id="header">
+    <div id="header-top">
+      <div style="flex:1;min-width:0">
+        <div id="header-label">PRC · Board of Aeronautical Engineering</div>
+        <div id="header-title">AELE <span id="header-accent">Review Plan</span></div>
+        <div id="header-sub">6 Subjects · 29 Topics · Official Syllabi</div>
+      </div>
+      <div id="ring-wrap">
+        <svg id="progress-ring" width="56" height="56" viewBox="0 0 56 56">
+          <circle id="ring-track" cx="28" cy="28" r="23"/>
+          <circle id="ring-fill" cx="28" cy="28" r="23"/>
+          <text id="ring-text" x="28" y="33" text-anchor="middle">0%</text>
+        </svg>
+        <div id="ring-label">0/0 done</div>
+      </div>
+    </div>
+    <div id="weight-bar"></div>
+  </header>
+
+  <div id="scroll-area">
+    <div id="subject-view"></div>
+  </div>
+
+  <nav id="bottom-nav"></nav>
+</div>
+
+<script>
+const SUBJECTS = [
+  {
+    code:"I", weight:"25%", weightNum:25, name:"Aerodynamics", color:"#38BDF8", icon:"◈",
+    objective:"To determine the basic knowledge of the Examinees in the Fundamentals of Aerodynamics and Applications to Aircraft.",
+    topics:[
+      { name:"Standard Atmosphere", subs:["Composition and Properties of Air","Layers and Characteristics of the Earth's Atmosphere"] },
+      { name:"Fluid Laws", subs:["Incompressible (Low-speed) and Compressible (High-Speed) Flows","Energy and Thermodynamic Relations","Continuity, Bernoulli, other Fluid Equations, and Flow Measurements","Supersonic Waves and Characteristics — Compression (Shock) and Expansion Waves"] },
+      { name:"Aircraft Classification & Operating Principles", subs:["Heavier-than-Air Aircraft (Fixed and Rotary Wings) and Principles of Flight","Lighter-than-Air Aircraft and Principles of Flight"] },
+      { name:"Airplane Aerodynamics", subs:["Aerodynamic Forces and Moments","Flight Performance — Power Required, Power Available, Climb, Glide, Turn, Take-Off, Landing, Range, Endurance, Load Factors","Flight Envelope — Gust and Maneuvering Loads","Stability and Control — Static and Dynamic"] },
+      { name:"Helicopter Aerodynamics", subs:["Aerodynamic Forces, Moments, Torque","Flight Performance, Stability and Control"] },
+      { name:"Wind Tunnels", subs:["Classification of Wind Tunnels","Operating Principles","Applications"] },
+    ],
+    refs:["Elements of Practical Aerodynamics — Bradley Jones","Technical Aerodynamics — K.D. Wood","Engineering Supersonic Aerodynamics — Bonney","Aerodynamic Theory (Vol. I–VI) — Durand","FAA Code of Federal Regulations, Parts 1–59","Basic Helicopter Handbook — US Printing Office","Wind Tunnel Testing — Pope","Aerodynamics — L.S. Clancy"],
+  },
+  {
+    code:"II", weight:"20%", weightNum:20, name:"Aircraft Powerplant", color:"#F97316", icon:"⚙",
+    objective:"To determine the basic knowledge of the Examinees in Thermodynamics and Power Plant Design and Operation Fundamentals with Applications to various Aircraft Power Systems.",
+    topics:[
+      { name:"Thermodynamics Fundamentals", subs:["Laws of Thermodynamics (First, Second, and Third Law)","Thermodynamic Properties: Temperature, Pressure, Enthalpy, Entropy","Thermodynamic Processes and Cycles","Heat Transfer: Conduction, Convection, Radiation","Fuels and Combustion Fundamentals","Fuel-Air Mixture Ratios and Combustion Efficiency"] },
+      { name:"Internal Combustion Engine Principles", subs:["Classification of Internal Combustion Engines","Otto Cycle, Diesel Cycle, and Dual Cycle Analysis","Engine Thermodynamic Efficiency and Performance Parameters","Carbureted and Fuel-Injected Engine Systems","Supercharging and Turbocharging Principles"] },
+      { name:"Aircraft Reciprocating Engines", subs:["Types and Configuration of Aircraft Piston Engines (Inline, Radial, Opposed)","Engine Components: Cylinders, Pistons, Crankshaft, Camshaft","Induction, Ignition, and Exhaust Systems","Engine Cooling Systems (Air-cooled and Liquid-cooled)","Lubrication System Types and Functions","Power and Torque Output, BHP, BMEP","Engine Ratings and Operating Limitations"] },
+      { name:"Aircraft Gas Turbine Engines", subs:["Brayton Cycle Analysis and Thermal Efficiency","Turbojet, Turbofan, Turboprop, and Turboshaft Engine Types","Compressor Types: Axial and Centrifugal — Design and Performance","Combustion Chambers: Types, Design, and Combustion Efficiency","Turbine Stages: Impulse and Reaction Turbine Design","Inlet Design and Intake Aerodynamics","Nozzle Types and Thrust Generation","Engine Performance Parameters: Thrust, TSFC, Specific Thrust","Afterburners and Thrust Augmentation","Engine Control Systems and FADEC"] },
+      { name:"Pulsejet and Ramjet Engines", subs:["Ramjet Operating Principles and Cycle Analysis","Pulsejet Design and Operation","Scramjet Concepts and Hypersonic Propulsion","Applications and Performance Characteristics"] },
+      { name:"Rocket Propulsion Systems", subs:["Rocket Equation (Tsiolkovsky) and Specific Impulse","Liquid Propellant Rocket Engines — Components and Operation","Solid Propellant Rocket Motors — Design and Performance","Hybrid Rocket Propulsion","Rocket Nozzle Design and Thrust Vector Control","Rocket Performance Parameters: Thrust, Exhaust Velocity, Specific Impulse"] },
+      { name:"Other Aircraft Power Systems", subs:["Auxiliary Power Units (APU) — Function and Operation","Propellers: Types, Blade Geometry, and Efficiency","Propeller Performance: Thrust, Power, Advance Ratio","Electric and Hybrid Propulsion Systems (Emerging Technologies)"] },
+    ],
+    refs:["Aircraft Powerplants — Eismin","The Jet Engine — Rolls-Royce","Gas Turbine Theory — Saravanamuttoo, Rogers & Cohen","Mechanics and Thermodynamics of Propulsion — Hill & Peterson","Aircraft Engines and Gas Turbines — Kerrebrock","Rocket Propulsion Elements — Sutton & Biblarz","FAA Code of Federal Regulations, Parts 1–59"],
+  },
+  {
+    code:"III", weight:"20%", weightNum:20, name:"Aircraft Structures & Design", color:"#A78BFA", icon:"⬡",
+    objective:"To determine the basic knowledge of the Examinees in Structural Analysis and Design of Aircraft.",
+    topics:[
+      { name:"Fundamental Principles", subs:["Forces, Stresses, Bending Moments, Torsion","Beams, Trusses, Columns, Statically Determinate and Indeterminate Systems","Factors and Margin of Safety","Procedures in Stress Analysis","Aircraft Design Requirements — Category and Specifications","Aircraft Utilization"] },
+      { name:"Aircraft Design Configuration", subs:["Aircraft Parts and Systems","Structural Configuration","Aircraft Weight Distribution","Center-of-Gravity (CG) and CG Travel"] },
+      { name:"Structural Loading Conditions", subs:["Gust and Maneuvering Loads, Load Factors, Flight Envelope","Loads on Wings, Fuselage, Control Surfaces","Loads on Landing Gears, Engine Mounts, and other Structural Members"] },
+      { name:"Structural Analysis and Design", subs:["Structural Analysis and Design of Wings, Fuselage, Control Surfaces, Landing Gears, Engine Mount","Design of Non-Structural Parts and Systems"] },
+    ],
+    refs:["Analysis and Design of Flight Vehicle Structures — Bruhn","Airplane Structural Analysis and Design — Sechler & Dunn","FAA Code of Federal Regulations, Parts 1–59","Aerospace Vehicle Design, Vol. I — K.D. Wood","Airplane Design Manual — Teichmann","Mechanics of Materials — Any Author","Engineering Mechanics — Any Author"],
+  },
+  {
+    code:"IV", weight:"15%", weightNum:15, name:"Construction, Repair & Modification", color:"#4ADE80", icon:"⟐",
+    objective:"To determine the basic knowledge of the Examinees on Aircraft Materials, Construction Repair, and Modification.",
+    topics:[
+      { name:"Aircraft Materials and Processes", subs:["Physical and Chemical Properties of Ferrous Metals and Alloys","Non-Ferrous Metals and Alloys","Non-Metals: Wood, Fiberglass, and others","Identification of Metals","Heat Treatment Processes","Forming/Shaping and Forging","Joining of Metals"] },
+      { name:"Hardware, Cables, and Tools", subs:["Bolts, Nuts, Screws, Rivets, and others","Control Cables and Cable Assemblies","Tools and Fabrication/Repair Equipment"] },
+      { name:"Construction, Repair & Modification", subs:["Aircraft Structural Components","Metal Structures","Non-Metal Structures","Composite Materials"] },
+      { name:"Testing and Inspection", subs:["Testing of Metals — Hardness Tests","Non-Destructive Test and Inspection (NDT/NDI)"] },
+      { name:"Corrosion Protection and Control", subs:["Types of Corrosion","Corrosion Protection and Removal"] },
+      { name:"Aircraft Weight and Balance", subs:["Weighing Procedure","Weight and Balance Computations","Weight and Balance Extreme Conditions — Most Forward and Rearward CG Positions"] },
+    ],
+    refs:["Aircraft Materials and Processes — Titterton","Aircraft Inspection and Repair — US Printing Office","Maintenance and Repair of Aerospace Vehicle — McKinley and Bent"],
+  },
+  {
+    code:"V", weight:"10%", weightNum:10, name:"Engineering Economics, Laws & Ethics", color:"#FB7185", icon:"⬟",
+    objective:"To determine the basic knowledge of the Examinees in Aeronautical Engineering Law and Ethics, and Principles of Engineering Economics and Management.",
+    topics:[
+      { name:"Engineering Law and Ethics", subs:["Presidential Decree No. 1570 — All Sections","Implementing Rules and Regulations of PD 1570","Definition of Terms, Registration and Practice of Aeronautical Engineers","Code of Professional Ethics","International Aviation Laws"] },
+      { name:"Engineering Economics and Management", subs:["Air Transport Economics — Interest, Depreciation, Revenue, Expenses, Profit","Break-Even Analysis","Airline Operation — Passenger Load Factor, Revenues, Expenses, Profit","Aviation Industrial Organizations — Airline and Aviation Companies","Research and Development","Aircraft Manufacturing"] },
+    ],
+    refs:["Presidential Decree No. 1570","Implementing Rules and Regulations of PD 1570","Republic Act 776","Engineering Economy (6th Ed.) — Garmo, Canada, Sullivan","Production Operations & Management — Any Author","Management Theory & Practice — Any Author"],
+  },
+  {
+    code:"VI", weight:"10%", weightNum:10, name:"Mathematics", color:"#FBBF24", icon:"∑",
+    objective:"To determine the basic knowledge of the Examinees in Mathematics as an indispensable tool in Aeronautical Engineering Computations.",
+    topics:[
+      { name:"Algebra and Trigonometry", subs:["Algebraic Functions, Equations, and various Algebraic Operations","Trigonometric Functions, Plane and Spherical Trigonometry, and other Topics","Problems in Aeronautical Engineering"] },
+      { name:"Analytic Geometry", subs:["Coordinate Systems, Equations of Lines","Conic Sections, Transformation of Coordinates, and other Topics","Problems in Aeronautical Engineering"] },
+      { name:"Calculus and Differential Equations", subs:["Differential Methods and Derivatives","Integration Methods and Integrals","Ordinary, Linear, and Partial Differentials","Problems in Aeronautical Engineering"] },
+    ],
+    refs:["College Algebra — Any Author","Plane and Spherical Trigonometry — Any Author","Analytic Geometry — Any Author","Differential and Integral Calculus — Any Author","Differential Equations — Any Author"],
+  },
+];
+
+// ── STATE ──
+const STORAGE_KEY = 'aele_checked_v1';
+let checked = {};
+try { checked = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e){}
+let expanded = {};
+let refsOpen = {};
+let activeSubject = 0;
+
+const totalSubs = SUBJECTS.reduce((a,s) => a + s.topics.reduce((b,t) => b + t.subs.length, 0), 0);
+
+function saveChecked() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(checked)); } catch(e){}
+}
+
+function subjectProgress(si) {
+  const s = SUBJECTS[si];
+  const total = s.topics.reduce((a,t) => a + t.subs.length, 0);
+  const done = s.topics.reduce((a,t,ti) => a + t.subs.filter((_,xi) => checked[`${si}-${ti}-${xi}`]).length, 0);
+  return { done, total, pct: total ? Math.round(done/total*100) : 0 };
+}
+
+function overallProgress() {
+  const done = Object.values(checked).filter(Boolean).length;
+  return { done, total: totalSubs, pct: Math.round(done/totalSubs*100) };
+}
+
+// ── RENDER ──
+function hexAlpha(hex, a) {
+  const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+  return `rgba(${r},${g},${b},${a})`;
+}
+
+function renderHeader() {
+  const s = SUBJECTS[activeSubject];
+  document.getElementById('header').style.borderBottomColor = s.color;
+  document.getElementById('header-accent').style.color = s.color;
+
+  const { done, total, pct } = overallProgress();
+  const r = 23, circ = 2 * Math.PI * r;
+  const fill = document.getElementById('ring-fill');
+  fill.style.stroke = s.color;
+  fill.setAttribute('stroke-dasharray', circ);
+  fill.setAttribute('stroke-dashoffset', circ * (1 - pct/100));
+  document.getElementById('ring-text').textContent = pct + '%';
+  document.getElementById('ring-label').textContent = `${done}/${total}`;
+
+  const bar = document.getElementById('weight-bar');
+  bar.innerHTML = '';
+  SUBJECTS.forEach((sb, i) => {
+    const seg = document.createElement('div');
+    seg.className = 'wb-seg';
+    seg.style.flex = sb.weightNum;
+    seg.style.background = i === activeSubject ? sb.color : hexAlpha(sb.color, 0.25);
+    seg.onclick = () => switchSubject(i);
+    bar.appendChild(seg);
+  });
+}
+
+function renderNav() {
+  const nav = document.getElementById('bottom-nav');
+  nav.innerHTML = '';
+  SUBJECTS.forEach((s, i) => {
+    const { pct } = subjectProgress(i);
+    const btn = document.createElement('button');
+    btn.className = 'nav-btn' + (i === activeSubject ? ' active' : '');
+    btn.style.borderTopColor = i === activeSubject ? s.color : 'transparent';
+    btn.innerHTML = `
+      <div class="nav-icon" style="color:${i===activeSubject?s.color:'#444466'}">${s.icon}</div>
+      <div class="nav-label">${s.code}</div>
+      <div class="nav-dot" style="background:${pct>0?s.color:'#333350'};opacity:${pct>0?1:0.4}"></div>
+    `;
+    btn.onclick = () => switchSubject(i);
+    nav.appendChild(btn);
+  });
+}
+
+function renderSubject() {
+  const si = activeSubject;
+  const s = SUBJECTS[si];
+  const view = document.getElementById('subject-view');
+
+  // Re-trigger animation
+  view.style.animation = 'none';
+  view.offsetHeight;
+  view.style.animation = '';
+
+  let html = `
+    <div id="subj-header" style="border-bottom:1px solid ${hexAlpha(s.color,.2)}">
+      <div id="subj-header-row">
+        <div id="subj-icon" style="color:${s.color}">${s.icon}</div>
+        <div>
+          <div id="subj-badge">Subject ${s.code} · ${s.weight} of Exam</div>
+          <div id="subj-name">${s.name}</div>
+        </div>
+      </div>
+      <div id="subj-obj">${s.objective}</div>
+    </div>
+  `;
+
+  s.topics.forEach((topic, ti) => {
+    const tKey = `${si}-${ti}`;
+    const isOpen = !!expanded[tKey];
+    const done = topic.subs.filter((_,xi) => checked[`${si}-${ti}-${xi}`]).length;
+    const complete = done === topic.subs.length;
+    const pct = done / topic.subs.length * 100;
+
+    html += `<div class="topic-card${isOpen?' open':''}" data-tkey="${tKey}">
+      <button class="topic-btn" onclick="toggleTopic('${tKey}')">
+        <div class="topic-btn-left">
+          <div class="topic-num${complete?' done':''}" style="${complete?`background:${s.color};color:#0E0E16`:''}">
+            ${complete ? '✓' : ti+1}
+          </div>
+          <div class="topic-name">${topic.name}</div>
+        </div>
+        <div class="topic-btn-right">
+          ${done>0?`<div class="topic-mini-bar"><div class="topic-mini-fill" style="width:${pct}%;background:${s.color}"></div></div>`:''}
+          <span class="topic-count">${done}/${topic.subs.length}</span>
+          <span class="topic-chevron" style="color:${s.color}">▾</span>
+        </div>
+      </button>
+      ${isOpen ? renderSubtopics(si, ti) : ''}
+    </div>`;
+  });
+
+  // References
+  const rOpen = !!refsOpen[si];
+  html += `<div class="refs-card${rOpen?' refs-open':''}">
+    <button class="refs-btn" onclick="toggleRefs(${si})">
+      <span>📚 References (${s.refs.length})</span>
+      <span class="refs-chevron">▾</span>
+    </button>
+    ${rOpen ? `<div class="refs-body">${s.refs.map((r,i)=>`<div class="ref-item">${i+1}. ${r}</div>`).join('')}</div>` : ''}
+  </div>`;
+
+  view.innerHTML = html;
+  document.getElementById('scroll-area').scrollTop = 0;
+}
+
+function renderSubtopics(si, ti) {
+  const s = SUBJECTS[si];
+  const topic = s.topics[ti];
+  let html = `<div class="subtopics">`;
+  topic.subs.forEach((sub, xi) => {
+    const ck = `${si}-${ti}-${xi}`;
+    const isDone = !!checked[ck];
+    html += `<div class="sub-item" onclick="toggleCheck('${ck}',${si})">
+      <div class="sub-check${isDone?' checked':''}" style="${isDone?`background:${s.color};border-color:${s.color}`:''}">
+        ${isDone?'✓':''}
+      </div>
+      <span class="sub-label${isDone?' done':''}">${sub}</span>
+    </div>`;
+  });
+  html += `</div>`;
+  return html;
+}
+
+// ── ACTIONS ──
+function switchSubject(i) {
+  activeSubject = i;
+  renderHeader();
+  renderNav();
+  renderSubject();
+}
+
+function toggleTopic(tKey) {
+  expanded[tKey] = !expanded[tKey];
+  renderSubject();
+}
+
+function toggleCheck(ck, si) {
+  checked[ck] = !checked[ck];
+  saveChecked();
+  renderHeader();
+  renderNav();
+  renderSubject();
+}
+
+function toggleRefs(si) {
+  refsOpen[si] = !refsOpen[si];
+  renderSubject();
+}
+
+// ── INIT ──
+function init() {
+  renderHeader();
+  renderNav();
+  renderSubject();
+
+  // Service Worker
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  }
+}
+
+init();
+</script>
+</body>
+</html>
