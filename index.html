@@ -11,161 +11,152 @@
 <link rel="manifest" href="manifest.json"/>
 <title>AELE Review Plan</title>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  :root {
-    --bg: #0E0E16; --bg2: #12121E; --bg3: #141420; --bg4: #10101A;
-    --border: #1E1E30; --border2: #1A1A28;
-    --text: #F0EEFF; --text2: #A0A0C8; --text3: #7070A0; --text4: #555580; --text5: #444466;
-    --c0: #38BDF8; --c1: #F97316; --c2: #A78BFA; --c3: #4ADE80; --c4: #FB7185; --c5: #FBBF24;
-    --safe-bottom: env(safe-area-inset-bottom, 0px);
-    --nav-h: 64px;
-  }
-  html, body { height: 100%; background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; overflow: hidden; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#0E0E16;--bg2:#12121E;--bg3:#141420;--bg4:#10101A;
+  --border:#1E1E30;--border2:#1A1A28;
+  --text:#F0EEFF;--text2:#A0A0C8;--text3:#7070A0;--text4:#555580;--text5:#444466;
+  --safe-bottom:env(safe-area-inset-bottom,0px);--nav-h:64px;
+}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;overflow:hidden}
+#app{display:flex;flex-direction:column;height:100dvh;height:100vh}
 
-  /* ── SCREENS ── */
-  #app { display: flex; flex-direction: column; height: 100dvh; height: 100vh; }
+/* HEADER */
+#header{background:var(--bg2);padding:14px 16px 10px;border-bottom:2px solid #38BDF8;transition:border-color .3s;flex-shrink:0}
+#header-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+#header-label{font-size:9px;letter-spacing:.3em;color:var(--text5);text-transform:uppercase;font-family:monospace;margin-bottom:3px}
+#header-title{font-size:17px;font-weight:700;color:var(--text);line-height:1.25}
+#header-title span{transition:color .3s}
+#header-sub{font-size:10px;color:var(--text5);font-family:monospace;margin-top:3px}
+#ring-wrap{flex-shrink:0;text-align:center}
+#ring-label{font-size:9px;color:var(--text5);font-family:monospace;margin-top:2px}
+#ring-track{fill:none;stroke:#1E1E30;stroke-width:5}
+#ring-fill{fill:none;stroke-width:5;stroke-linecap:round;transform:rotate(-90deg);transform-origin:50% 50%;transition:stroke-dashoffset .5s ease,stroke .3s}
+#ring-text{font-size:13px;font-weight:bold;font-family:monospace;fill:var(--text)}
+#weight-bar{display:flex;height:5px;border-radius:3px;overflow:hidden;gap:2px;margin-top:10px}
+.wb-seg{border-radius:2px;cursor:pointer;transition:opacity .2s}
 
-  /* Header */
-  #header {
-    background: var(--bg2);
-    padding: 14px 16px 10px;
-    border-bottom: 2px solid var(--c0);
-    transition: border-color 0.3s;
-    flex-shrink: 0;
-  }
-  #header-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
-  #header-label { font-size: 9px; letter-spacing: .3em; color: var(--text5); text-transform: uppercase; font-family: monospace; margin-bottom: 3px; }
-  #header-title { font-size: 17px; font-weight: 700; color: var(--text); line-height: 1.25; }
-  #header-title span { transition: color .3s; }
-  #header-sub { font-size: 10px; color: var(--text5); font-family: monospace; margin-top: 3px; }
-  /* Ring */
-  #ring-wrap { flex-shrink: 0; text-align: center; }
-  #ring-label { font-size: 9px; color: var(--text5); font-family: monospace; margin-top: 2px; }
-  #progress-ring { display: block; }
-  #ring-track { fill: none; stroke: #1E1E30; stroke-width: 5; }
-  #ring-fill { fill: none; stroke-width: 5; stroke-linecap: round; transform: rotate(-90deg); transform-origin: 50% 50%; transition: stroke-dashoffset .5s ease, stroke .3s; }
-  #ring-text { font-size: 13px; font-weight: bold; font-family: monospace; fill: var(--text); }
+/* SCROLL */
+#scroll-area{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:calc(var(--nav-h) + var(--safe-bottom) + 8px)}
 
-  /* Weight bar */
-  #weight-bar { display: flex; height: 5px; border-radius: 3px; overflow: hidden; gap: 2px; margin-top: 10px; }
-  .wb-seg { border-radius: 2px; cursor: pointer; transition: opacity .2s; }
+/* REVIEW VIEW */
+#subject-view{padding:14px 14px 0}
+#subj-header{margin-bottom:14px;padding-bottom:12px}
+#subj-header-row{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+#subj-icon{font-size:22px}
+#subj-badge{font-size:9px;font-family:monospace;letter-spacing:.2em;color:var(--text4);text-transform:uppercase}
+#subj-name{font-size:18px;font-weight:700;color:var(--text)}
+#subj-obj{font-size:12px;color:var(--text3);font-style:italic;line-height:1.6}
+.topic-card{border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:7px;transition:border-color .2s}
+.topic-card.open{border-color:rgba(255,255,255,.15)}
+.topic-btn{display:flex;align-items:center;justify-content:space-between;width:100%;padding:13px 12px;background:var(--bg3);border:none;text-align:left;cursor:pointer;color:var(--text);transition:background .2s;min-height:52px}
+.topic-btn:active{opacity:.8}
+.topic-card.open .topic-btn{background:#141428}
+.topic-btn-left{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.topic-num{width:24px;height:24px;border-radius:5px;flex-shrink:0;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;font-family:monospace;font-weight:bold;color:var(--text4);transition:all .2s}
+.topic-name{font-size:13.5px;color:var(--text2);font-weight:500;line-height:1.3}
+.topic-card.open .topic-name{color:var(--text);font-weight:600}
+.topic-btn-right{display:flex;align-items:center;gap:6px;flex-shrink:0;margin-left:8px}
+.topic-mini-bar{height:3px;width:36px;background:var(--border);border-radius:2px;overflow:hidden}
+.topic-mini-fill{height:100%;border-radius:2px;transition:width .3s}
+.topic-count{font-size:10px;color:var(--text4);font-family:monospace}
+.topic-chevron{font-size:10px;transition:transform .2s;display:inline-block}
+.topic-card.open .topic-chevron{transform:rotate(180deg)}
+.subtopics{background:var(--bg4);padding:4px 12px 10px 46px;border-top:1px solid var(--border2)}
+.sub-item{display:flex;align-items:flex-start;gap:10px;padding:9px 0;cursor:pointer;border-bottom:1px solid #16162A;min-height:44px}
+.sub-item:last-child{border-bottom:none}
+.sub-item:active{opacity:.7}
+.sub-check{width:18px;height:18px;border-radius:4px;flex-shrink:0;margin-top:1px;border:1.5px solid #2E2E48;background:transparent;display:flex;align-items:center;justify-content:center;transition:all .15s;font-size:10px;color:#0E0E16;font-weight:bold}
+.sub-label{font-size:13px;color:var(--text2);line-height:1.5;transition:all .15s}
+.sub-label.done{color:#333355;text-decoration:line-through}
+.refs-card{border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:14px}
+.refs-btn{display:flex;align-items:center;justify-content:space-between;width:100%;padding:12px 12px;background:var(--bg3);border:none;text-align:left;cursor:pointer;color:var(--text3);font-size:11px;font-family:monospace;letter-spacing:.1em;text-transform:uppercase;min-height:44px}
+.refs-chevron{font-size:10px;transition:transform .2s;display:inline-block}
+.refs-open .refs-chevron{transform:rotate(180deg)}
+.refs-body{background:var(--bg4);padding:6px 12px 10px;border-top:1px solid var(--border2)}
+.ref-item{font-size:12px;color:var(--text3);font-style:italic;padding:5px 0;border-bottom:1px dashed var(--border2);line-height:1.5}
+.ref-item:last-child{border-bottom:none}
 
-  /* ── MAIN SCROLL AREA ── */
-  #scroll-area {
-    flex: 1; overflow-y: auto; overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: calc(var(--nav-h) + var(--safe-bottom) + 8px);
-  }
+/* QUIZ VIEW */
+#quiz-view{padding:14px;display:none;flex-direction:column;gap:12px}
+#quiz-view.active{display:flex}
+.quiz-header-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:2px}
+.quiz-title{font-size:16px;font-weight:700;color:var(--text)}
+.quiz-subtitle{font-size:10px;color:var(--text4);font-family:monospace;margin-bottom:10px}
+.quiz-progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-bottom:16px}
+.quiz-progress-fill{height:100%;border-radius:2px;transition:width .4s ease}
+.quiz-card{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:18px 16px;position:relative}
+.quiz-subject-tag{display:inline-block;font-size:9px;font-family:monospace;letter-spacing:.15em;text-transform:uppercase;padding:3px 8px;border-radius:3px;margin-bottom:10px}
+.quiz-qnum{font-size:10px;color:var(--text4);font-family:monospace;margin-bottom:8px}
+.quiz-question{font-size:14px;color:var(--text);line-height:1.6;margin-bottom:18px;font-weight:500}
+.quiz-options{display:flex;flex-direction:column;gap:8px}
+.quiz-opt{display:flex;align-items:flex-start;gap:10px;padding:11px 13px;border-radius:7px;border:1px solid var(--border);background:var(--bg4);cursor:pointer;transition:all .15s;min-height:44px;text-align:left;width:100%}
+.quiz-opt:active{opacity:.8}
+.quiz-opt-letter{width:22px;height:22px;border-radius:4px;flex-shrink:0;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;font-family:monospace;font-weight:bold;color:var(--text4);transition:all .15s}
+.quiz-opt-text{font-size:13px;color:var(--text2);line-height:1.45}
+.quiz-opt.selected{border-color:#38BDF8}
+.quiz-opt.correct{border-color:#4ADE80;background:rgba(74,222,128,.08)}
+.quiz-opt.correct .quiz-opt-letter{background:#4ADE80;color:#0E0E16}
+.quiz-opt.wrong{border-color:#FB7185;background:rgba(251,113,133,.08)}
+.quiz-opt.wrong .quiz-opt-letter{background:#FB7185;color:#0E0E16}
+.quiz-opt.reveal-correct{border-color:#4ADE80;background:rgba(74,222,128,.05)}
+.quiz-opt.reveal-correct .quiz-opt-letter{background:rgba(74,222,128,.3);color:#4ADE80}
+.quiz-explanation{margin-top:14px;padding:12px;background:var(--bg2);border-radius:7px;border-left:3px solid #38BDF8;font-size:12px;color:var(--text3);line-height:1.6;display:none}
+.quiz-explanation.show{display:block}
+.quiz-actions{display:flex;gap:8px;margin-top:4px}
+.btn-primary{flex:1;padding:13px;border-radius:8px;border:none;font-size:13px;font-weight:700;cursor:pointer;transition:opacity .15s;font-family:'Segoe UI',sans-serif}
+.btn-primary:active{opacity:.8}
+.btn-secondary{padding:13px 16px;border-radius:8px;border:1px solid var(--border);background:transparent;font-size:13px;color:var(--text3);cursor:pointer;transition:all .15s}
+.btn-secondary:active{opacity:.7}
 
-  /* Subject view */
-  #subject-view { padding: 14px 14px 0; }
-  #subj-header { margin-bottom: 14px; padding-bottom: 12px; }
-  #subj-header-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
-  #subj-icon { font-size: 22px; }
-  #subj-badge { font-size: 9px; font-family: monospace; letter-spacing: .2em; color: var(--text4); text-transform: uppercase; }
-  #subj-name { font-size: 18px; font-weight: 700; color: var(--text); }
-  #subj-obj { font-size: 12px; color: var(--text3); font-style: italic; line-height: 1.6; }
+/* QUIZ SETUP */
+#quiz-setup{display:flex;flex-direction:column;gap:10px}
+.setup-title{font-size:18px;font-weight:700;color:var(--text);margin-bottom:2px}
+.setup-sub{font-size:11px;color:var(--text4);font-family:monospace;margin-bottom:8px}
+.setup-section{font-size:10px;letter-spacing:.2em;color:var(--text5);text-transform:uppercase;font-family:monospace;margin-bottom:6px;margin-top:4px}
+.filter-row{display:flex;flex-wrap:wrap;gap:6px}
+.filter-chip{padding:7px 12px;border-radius:20px;border:1px solid var(--border);background:var(--bg3);font-size:11px;color:var(--text3);cursor:pointer;transition:all .15s}
+.filter-chip.on{border-color:currentColor}
+.filter-chip:active{opacity:.8}
+.count-row{display:flex;gap:8px}
+.count-btn{flex:1;padding:10px;border-radius:7px;border:1px solid var(--border);background:var(--bg3);font-size:12px;color:var(--text3);cursor:pointer;transition:all .15s;font-family:monospace}
+.count-btn.on{border-color:#38BDF8;color:#38BDF8;background:rgba(56,189,248,.08)}
 
-  /* Topic cards */
-  .topic-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 7px; transition: border-color .2s; }
-  .topic-card.open { border-color: rgba(255,255,255,.15); }
-  .topic-btn {
-    display: flex; align-items: center; justify-content: space-between;
-    width: 100%; padding: 13px 12px; background: var(--bg3);
-    border: none; text-align: left; cursor: pointer; color: var(--text); transition: background .2s;
-    -webkit-tap-highlight-color: transparent;
-    min-height: 52px;
-  }
-  .topic-btn:active { opacity: .8; }
-  .topic-card.open .topic-btn { background: #141428; }
-  .topic-btn-left { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
-  .topic-num {
-    width: 24px; height: 24px; border-radius: 5px; flex-shrink: 0;
-    background: var(--border); display: flex; align-items: center; justify-content: center;
-    font-size: 10px; font-family: monospace; font-weight: bold; color: var(--text4); transition: all .2s;
-  }
-  .topic-num.done { color: #0E0E16; }
-  .topic-name { font-size: 13.5px; color: var(--text2); font-weight: 500; line-height: 1.3; }
-  .topic-card.open .topic-name { color: var(--text); font-weight: 600; }
-  .topic-btn-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; margin-left: 8px; }
-  .topic-mini-bar { height: 3px; width: 36px; background: var(--border); border-radius: 2px; overflow: hidden; }
-  .topic-mini-fill { height: 100%; border-radius: 2px; transition: width .3s; }
-  .topic-count { font-size: 10px; color: var(--text4); font-family: monospace; }
-  .topic-chevron { font-size: 10px; transition: transform .2s; display: inline-block; }
-  .topic-card.open .topic-chevron { transform: rotate(180deg); }
+/* QUIZ RESULTS */
+#quiz-results{display:none;flex-direction:column;gap:12px;padding:14px}
+#quiz-results.show{display:flex}
+.result-card{background:var(--bg3);border-radius:10px;padding:20px;text-align:center}
+.result-score{font-size:52px;font-weight:900;line-height:1;font-family:monospace}
+.result-label{font-size:11px;color:var(--text4);font-family:monospace;margin-top:4px}
+.result-breakdown{display:flex;gap:0;margin-top:16px;border-radius:6px;overflow:hidden}
+.rb-item{flex:1;padding:10px 6px;text-align:center}
+.rb-num{font-size:20px;font-weight:700;font-family:monospace}
+.rb-label{font-size:9px;color:var(--text4);font-family:monospace;text-transform:uppercase;margin-top:2px}
+.result-per-subject{margin-top:8px}
+.rps-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border2)}
+.rps-row:last-child{border-bottom:none}
+.rps-name{font-size:12px;color:var(--text2)}
+.rps-score{font-size:12px;font-family:monospace}
+.rps-bar-wrap{flex:1;margin:0 10px;height:3px;background:var(--border);border-radius:2px;overflow:hidden}
+.rps-bar{height:100%;border-radius:2px}
 
-  /* Subtopics */
-  .subtopics { background: var(--bg4); padding: 4px 12px 10px 46px; border-top: 1px solid var(--border2); }
-  .sub-item {
-    display: flex; align-items: flex-start; gap: 10px;
-    padding: 9px 0; cursor: pointer; border-bottom: 1px solid #16162A;
-    -webkit-tap-highlight-color: transparent;
-    min-height: 44px;
-  }
-  .sub-item:last-child { border-bottom: none; }
-  .sub-item:active { opacity: .7; }
-  .sub-check {
-    width: 18px; height: 18px; border-radius: 4px; flex-shrink: 0; margin-top: 1px;
-    border: 1.5px solid #2E2E48; background: transparent;
-    display: flex; align-items: center; justify-content: center;
-    transition: all .15s; font-size: 10px; color: #0E0E16; font-weight: bold;
-  }
-  .sub-check.checked { }
-  .sub-label { font-size: 13px; color: var(--text2); line-height: 1.5; transition: all .15s; }
-  .sub-label.done { color: #333355; text-decoration: line-through; }
+/* BOTTOM NAV */
+#bottom-nav{position:fixed;bottom:0;left:0;right:0;height:calc(var(--nav-h) + var(--safe-bottom));background:var(--bg2);border-top:1px solid var(--border);display:flex;align-items:stretch;padding-bottom:var(--safe-bottom);z-index:100;overflow-x:auto;scrollbar-width:none}
+#bottom-nav::-webkit-scrollbar{display:none}
+.nav-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;min-width:56px;padding:6px 4px;background:transparent;border:none;cursor:pointer;gap:3px;border-top:2px solid transparent;transition:border-color .2s}
+.nav-btn:active{opacity:.7}
+.nav-icon{font-size:16px;line-height:1}
+.nav-label{font-size:8px;font-family:monospace;letter-spacing:.05em;color:var(--text5);text-transform:uppercase;white-space:nowrap}
+.nav-btn.active .nav-label{color:var(--text)}
+.nav-dot{width:4px;height:4px;border-radius:50%;margin-top:1px}
 
-  /* References */
-  .refs-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 14px; }
-  .refs-btn {
-    display: flex; align-items: center; justify-content: space-between;
-    width: 100%; padding: 12px 12px; background: var(--bg3);
-    border: none; text-align: left; cursor: pointer; color: var(--text3);
-    font-size: 11px; font-family: monospace; letter-spacing: .1em; text-transform: uppercase;
-    min-height: 44px;
-  }
-  .refs-chevron { font-size: 10px; transition: transform .2s; display: inline-block; }
-  .refs-open .refs-chevron { transform: rotate(180deg); }
-  .refs-body { background: var(--bg4); padding: 6px 12px 10px; border-top: 1px solid var(--border2); }
-  .ref-item { font-size: 12px; color: var(--text3); font-style: italic; padding: 5px 0; border-bottom: 1px dashed var(--border2); line-height: 1.5; }
-  .ref-item:last-child { border-bottom: none; }
+/* QUIZ NAV ITEM */
+.nav-quiz-badge{font-size:7px;font-family:monospace;background:#FB7185;color:#0E0E16;border-radius:8px;padding:1px 4px;font-weight:bold}
 
-  /* ── BOTTOM NAV ── */
-  #bottom-nav {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    height: calc(var(--nav-h) + var(--safe-bottom));
-    background: var(--bg2);
-    border-top: 1px solid var(--border);
-    display: flex; align-items: stretch;
-    padding-bottom: var(--safe-bottom);
-    z-index: 100;
-    overflow-x: auto; overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-  #bottom-nav::-webkit-scrollbar { display: none; }
-  .nav-btn {
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    flex: 1; min-width: 56px; padding: 6px 4px;
-    background: transparent; border: none; cursor: pointer; gap: 3px;
-    border-top: 2px solid transparent; transition: border-color .2s;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .nav-btn:active { opacity: .7; }
-  .nav-btn.active { border-top-color: var(--text); /* overridden by JS */ }
-  .nav-icon { font-size: 16px; line-height: 1; }
-  .nav-label { font-size: 8px; font-family: monospace; letter-spacing: .05em; color: var(--text5); text-transform: uppercase; white-space: nowrap; }
-  .nav-btn.active .nav-label { color: var(--text); }
-  .nav-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--text5); margin-top: 1px; }
-  .nav-btn.active .nav-dot { }
-
-  /* Animate in */
-  @keyframes fadeUp { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: none; } }
-  #subject-view { animation: fadeUp .2s ease; }
-
-  /* Scrollbar */
-  #scroll-area::-webkit-scrollbar { width: 3px; }
-  #scroll-area::-webkit-scrollbar-track { background: transparent; }
-  #scroll-area::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.anim{animation:fadeUp .2s ease}
+#scroll-area::-webkit-scrollbar{width:3px}
+#scroll-area::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
 </style>
 </head>
 <body>
@@ -175,7 +166,7 @@
       <div style="flex:1;min-width:0">
         <div id="header-label">PRC · Board of Aeronautical Engineering</div>
         <div id="header-title">AELE <span id="header-accent">Review Plan</span></div>
-        <div id="header-sub">6 Subjects · 29 Topics · Official Syllabi</div>
+        <div id="header-sub" id="header-sub">6 Subjects · 30 Topics · Official Syllabi 2025</div>
       </div>
       <div id="ring-wrap">
         <svg id="progress-ring" width="56" height="56" viewBox="0 0 56 56">
@@ -191,129 +182,196 @@
 
   <div id="scroll-area">
     <div id="subject-view"></div>
+    <div id="quiz-view"></div>
+    <div id="quiz-results"></div>
   </div>
 
   <nav id="bottom-nav"></nav>
 </div>
 
 <script>
+// ═══════════════════════════════════════════════
+// DATA — Updated per actual 2023–2025 AELE exams
+// ═══════════════════════════════════════════════
 const SUBJECTS = [
   {
-    code:"I", weight:"25%", weightNum:25, name:"Aerodynamics", color:"#38BDF8", icon:"◈",
-    objective:"To determine the basic knowledge of the Examinees in the Fundamentals of Aerodynamics and Applications to Aircraft.",
+    code:"I",weight:"25%",weightNum:25,name:"Aerodynamics",color:"#38BDF8",icon:"◈",
+    objective:"Fundamentals of Low/High Speed Aerodynamics; Application to Fixed/Rotary Wing Aircraft Configurations, Performance, Stability and Control; Wind Tunnels and Applications.",
     topics:[
-      { name:"Standard Atmosphere", subs:["Composition and Properties of Air","Layers and Characteristics of the Earth's Atmosphere"] },
-      { name:"Fluid Laws", subs:["Incompressible (Low-speed) and Compressible (High-Speed) Flows","Energy and Thermodynamic Relations","Continuity, Bernoulli, other Fluid Equations, and Flow Measurements","Supersonic Waves and Characteristics — Compression (Shock) and Expansion Waves"] },
-      { name:"Aircraft Classification & Operating Principles", subs:["Heavier-than-Air Aircraft (Fixed and Rotary Wings) and Principles of Flight","Lighter-than-Air Aircraft and Principles of Flight"] },
-      { name:"Airplane Aerodynamics", subs:["Aerodynamic Forces and Moments","Flight Performance — Power Required, Power Available, Climb, Glide, Turn, Take-Off, Landing, Range, Endurance, Load Factors","Flight Envelope — Gust and Maneuvering Loads","Stability and Control — Static and Dynamic"] },
-      { name:"Helicopter Aerodynamics", subs:["Aerodynamic Forces, Moments, Torque","Flight Performance, Stability and Control"] },
-      { name:"Wind Tunnels", subs:["Classification of Wind Tunnels","Operating Principles","Applications"] },
+      {name:"Standard Atmosphere",subs:["Composition and Properties of Air","Layers and Characteristics of the Earth's Atmosphere","International Standard Atmosphere (ISA) Values"]},
+      {name:"Fluid Laws",subs:["Incompressible (Low-speed) and Compressible (High-Speed) Flows","Energy and Thermodynamic Relations","Continuity, Bernoulli, other Fluid Equations, and Flow Measurements","Supersonic Waves — Compression (Shock) and Expansion Waves"]},
+      {name:"Aircraft Classification & Operating Principles",subs:["Heavier-than-Air Aircraft (Fixed and Rotary Wings) and Principles of Flight","Lighter-than-Air Aircraft and Principles of Flight"]},
+      {name:"Airplane Aerodynamics",subs:["Aerodynamic Forces and Moments","Flight Performance — Power Required, Power Available, Climb, Glide, Turn","Take-Off, Landing, Range, Endurance, Load Factors","Flight Envelope — Gust and Maneuvering Loads","Stability and Control — Static and Dynamic"]},
+      {name:"Helicopter Aerodynamics",subs:["Aerodynamic Forces, Moments, Torque","Flight Performance, Stability and Control"]},
+      {name:"Wind Tunnels",subs:["Classification of Wind Tunnels","Operating Principles","Applications"]},
     ],
     refs:["Elements of Practical Aerodynamics — Bradley Jones","Technical Aerodynamics — K.D. Wood","Engineering Supersonic Aerodynamics — Bonney","Aerodynamic Theory (Vol. I–VI) — Durand","FAA Code of Federal Regulations, Parts 1–59","Basic Helicopter Handbook — US Printing Office","Wind Tunnel Testing — Pope","Aerodynamics — L.S. Clancy"],
   },
   {
-    code:"II", weight:"20%", weightNum:20, name:"Aircraft Powerplant", color:"#F97316", icon:"⚙",
-    objective:"To determine the basic knowledge of the Examinees in Thermodynamics and Power Plant Design and Operation Fundamentals with Applications to various Aircraft Power Systems.",
+    code:"II",weight:"20%",weightNum:20,name:"Aircraft Powerplant",color:"#F97316",icon:"⚙",
+    objective:"Thermodynamics and Power Plant Design and Operation Fundamentals with Applications to Internal Combustion Engines, Gas Turbines, Pulsejet/Ramjet, Rocket Propulsion, and other Aircraft Power Systems.",
     topics:[
-      { name:"Thermodynamics Fundamentals", subs:["Laws of Thermodynamics (First, Second, and Third Law)","Thermodynamic Properties: Temperature, Pressure, Enthalpy, Entropy","Thermodynamic Processes and Cycles","Heat Transfer: Conduction, Convection, Radiation","Fuels and Combustion Fundamentals","Fuel-Air Mixture Ratios and Combustion Efficiency"] },
-      { name:"Internal Combustion Engine Principles", subs:["Classification of Internal Combustion Engines","Otto Cycle, Diesel Cycle, and Dual Cycle Analysis","Engine Thermodynamic Efficiency and Performance Parameters","Carbureted and Fuel-Injected Engine Systems","Supercharging and Turbocharging Principles"] },
-      { name:"Aircraft Reciprocating Engines", subs:["Types and Configuration of Aircraft Piston Engines (Inline, Radial, Opposed)","Engine Components: Cylinders, Pistons, Crankshaft, Camshaft","Induction, Ignition, and Exhaust Systems","Engine Cooling Systems (Air-cooled and Liquid-cooled)","Lubrication System Types and Functions","Power and Torque Output, BHP, BMEP","Engine Ratings and Operating Limitations"] },
-      { name:"Aircraft Gas Turbine Engines", subs:["Brayton Cycle Analysis and Thermal Efficiency","Turbojet, Turbofan, Turboprop, and Turboshaft Engine Types","Compressor Types: Axial and Centrifugal — Design and Performance","Combustion Chambers: Types, Design, and Combustion Efficiency","Turbine Stages: Impulse and Reaction Turbine Design","Inlet Design and Intake Aerodynamics","Nozzle Types and Thrust Generation","Engine Performance Parameters: Thrust, TSFC, Specific Thrust","Afterburners and Thrust Augmentation","Engine Control Systems and FADEC"] },
-      { name:"Pulsejet and Ramjet Engines", subs:["Ramjet Operating Principles and Cycle Analysis","Pulsejet Design and Operation","Scramjet Concepts and Hypersonic Propulsion","Applications and Performance Characteristics"] },
-      { name:"Rocket Propulsion Systems", subs:["Rocket Equation (Tsiolkovsky) and Specific Impulse","Liquid Propellant Rocket Engines — Components and Operation","Solid Propellant Rocket Motors — Design and Performance","Hybrid Rocket Propulsion","Rocket Nozzle Design and Thrust Vector Control","Rocket Performance Parameters: Thrust, Exhaust Velocity, Specific Impulse"] },
-      { name:"Other Aircraft Power Systems", subs:["Auxiliary Power Units (APU) — Function and Operation","Propellers: Types, Blade Geometry, and Efficiency","Propeller Performance: Thrust, Power, Advance Ratio","Electric and Hybrid Propulsion Systems (Emerging Technologies)"] },
+      {name:"Thermodynamics Fundamentals",subs:["Laws of Thermodynamics (First, Second, Third Law)","Thermodynamic Properties: Temperature, Pressure, Enthalpy, Entropy","Thermodynamic Processes and Cycles","Heat Transfer: Conduction, Convection, Radiation","Fuels and Combustion Fundamentals","Fuel-Air Mixture Ratios and Combustion Efficiency"]},
+      {name:"Internal Combustion Engine Principles",subs:["Classification of Internal Combustion Engines","Otto Cycle, Diesel Cycle, and Dual Cycle Analysis","Engine Thermodynamic Efficiency and Performance Parameters","Carbureted and Fuel-Injected Engine Systems","Supercharging and Turbocharging Principles"]},
+      {name:"Aircraft Reciprocating Engines",subs:["Types: Inline, Radial, Opposed Piston Engines","Engine Components: Cylinders, Pistons, Crankshaft, Camshaft","Induction, Ignition, and Exhaust Systems","Engine Cooling Systems (Air-cooled and Liquid-cooled)","Lubrication System Types and Functions","Power Output: BHP, BMEP, Engine Ratings and Limitations"]},
+      {name:"Aircraft Gas Turbine Engines",subs:["Brayton Cycle Analysis and Thermal Efficiency","Turbojet, Turbofan, Turboprop, and Turboshaft Types","Compressor Types: Axial and Centrifugal","Combustion Chambers: Types, Design, Combustion Efficiency","Turbine Stages: Impulse and Reaction Turbine Design","Nozzle Types and Thrust Generation","Engine Performance: Thrust, TSFC, Specific Thrust","Afterburners and Thrust Augmentation","Engine Control Systems and FADEC"]},
+      {name:"Pulsejet and Ramjet Engines",subs:["Ramjet Operating Principles and Cycle Analysis","Pulsejet Design and Operation","Scramjet Concepts and Hypersonic Propulsion","Applications and Performance Characteristics"]},
+      {name:"Rocket Propulsion Systems",subs:["Rocket Equation (Tsiolkovsky) and Specific Impulse","Liquid Propellant Rocket Engines","Solid Propellant Rocket Motors","Rocket Nozzle Design and Thrust Vector Control","Rocket Performance: Thrust, Exhaust Velocity, Specific Impulse"]},
+      {name:"Other Aircraft Power Systems",subs:["Auxiliary Power Units (APU)","Propellers: Types, Blade Geometry, Efficiency","Propeller Performance: Thrust, Power, Advance Ratio","Electric and Hybrid Propulsion (Emerging)"]},
     ],
     refs:["Aircraft Powerplants — Eismin","The Jet Engine — Rolls-Royce","Gas Turbine Theory — Saravanamuttoo, Rogers & Cohen","Mechanics and Thermodynamics of Propulsion — Hill & Peterson","Aircraft Engines and Gas Turbines — Kerrebrock","Rocket Propulsion Elements — Sutton & Biblarz","FAA Code of Federal Regulations, Parts 1–59"],
   },
   {
-    code:"III", weight:"20%", weightNum:20, name:"Aircraft Structures & Design", color:"#A78BFA", icon:"⬡",
-    objective:"To determine the basic knowledge of the Examinees in Structural Analysis and Design of Aircraft.",
+    code:"III",weight:"20%",weightNum:20,name:"Aircraft Structures & Design",color:"#A78BFA",icon:"⬡",
+    objective:"Aircraft Design Fundamentals; Structural Loading Conditions; Structural Analysis and Design of Airframe Components; Landing Gears, Engine Mounts and Other Structural Parts; Non-Structural Components Design.",
     topics:[
-      { name:"Fundamental Principles", subs:["Forces, Stresses, Bending Moments, Torsion","Beams, Trusses, Columns, Statically Determinate and Indeterminate Systems","Factors and Margin of Safety","Procedures in Stress Analysis","Aircraft Design Requirements — Category and Specifications","Aircraft Utilization"] },
-      { name:"Aircraft Design Configuration", subs:["Aircraft Parts and Systems","Structural Configuration","Aircraft Weight Distribution","Center-of-Gravity (CG) and CG Travel"] },
-      { name:"Structural Loading Conditions", subs:["Gust and Maneuvering Loads, Load Factors, Flight Envelope","Loads on Wings, Fuselage, Control Surfaces","Loads on Landing Gears, Engine Mounts, and other Structural Members"] },
-      { name:"Structural Analysis and Design", subs:["Structural Analysis and Design of Wings, Fuselage, Control Surfaces, Landing Gears, Engine Mount","Design of Non-Structural Parts and Systems"] },
+      {name:"Fundamental Principles",subs:["Forces, Stresses, Bending Moments, Torsion","Beams, Trusses, Columns — Statically Determinate and Indeterminate Systems","Factors and Margin of Safety","Procedures in Stress Analysis","Aircraft Design Requirements — Category and Specifications","Aircraft Utilization"]},
+      {name:"Aircraft Design Configuration",subs:["Aircraft Parts and Systems","Structural Configuration","Aircraft Weight Distribution","Center-of-Gravity (CG) and CG Travel"]},
+      {name:"Structural Loading Conditions",subs:["Gust and Maneuvering Loads, Load Factors, Flight Envelope","Loads on Wings, Fuselage, Control Surfaces","Loads on Landing Gears, Engine Mounts, and Other Structural Members"]},
+      {name:"Structural Analysis and Design",subs:["Structural Analysis and Design of Wings, Fuselage, Control Surfaces","Landing Gears and Engine Mount Design","Design of Non-Structural Parts and Systems"]},
     ],
     refs:["Analysis and Design of Flight Vehicle Structures — Bruhn","Airplane Structural Analysis and Design — Sechler & Dunn","FAA Code of Federal Regulations, Parts 1–59","Aerospace Vehicle Design, Vol. I — K.D. Wood","Airplane Design Manual — Teichmann","Mechanics of Materials — Any Author","Engineering Mechanics — Any Author"],
   },
   {
-    code:"IV", weight:"15%", weightNum:15, name:"Construction, Repair & Modification", color:"#4ADE80", icon:"⟐",
-    objective:"To determine the basic knowledge of the Examinees on Aircraft Materials, Construction Repair, and Modification.",
+    code:"IV",weight:"15%",weightNum:15,name:"Construction, Repair & Modification",color:"#4ADE80",icon:"⟐",
+    objective:"Aircraft Materials and Processes; Methods and Techniques in Repair and Modification in accordance with Civil Airworthiness Regulations; Manufacturing/Production Processes and Quality Assurance.",
     topics:[
-      { name:"Aircraft Materials and Processes", subs:["Physical and Chemical Properties of Ferrous Metals and Alloys","Non-Ferrous Metals and Alloys","Non-Metals: Wood, Fiberglass, and others","Identification of Metals","Heat Treatment Processes","Forming/Shaping and Forging","Joining of Metals"] },
-      { name:"Hardware, Cables, and Tools", subs:["Bolts, Nuts, Screws, Rivets, and others","Control Cables and Cable Assemblies","Tools and Fabrication/Repair Equipment"] },
-      { name:"Construction, Repair & Modification", subs:["Aircraft Structural Components","Metal Structures","Non-Metal Structures","Composite Materials"] },
-      { name:"Testing and Inspection", subs:["Testing of Metals — Hardness Tests","Non-Destructive Test and Inspection (NDT/NDI)"] },
-      { name:"Corrosion Protection and Control", subs:["Types of Corrosion","Corrosion Protection and Removal"] },
-      { name:"Aircraft Weight and Balance", subs:["Weighing Procedure","Weight and Balance Computations","Weight and Balance Extreme Conditions — Most Forward and Rearward CG Positions"] },
+      {name:"Aircraft Materials and Processes",subs:["Physical and Chemical Properties of Ferrous Metals and Alloys","Non-Ferrous Metals and Alloys","Non-Metals: Wood, Fiberglass, Composites","Identification of Metals","Heat Treatment Processes","Forming, Shaping and Forging","Joining of Metals (Welding, Fastening, Bonding)"]},
+      {name:"Aircraft Hardware, Cables & Tools",subs:["Bolts, Nuts, Screws, Rivets and Hardware","Control Cables and Cable Assemblies","Tools and Fabrication/Repair Equipment"]},
+      {name:"Construction, Repair & Modification",subs:["Aircraft Structural Components Repair","Metal Structure Repair Techniques","Non-Metal Structure Repair","Composite Material Repair"]},
+      {name:"Civil Airworthiness Regulations (CAAP CAR)",subs:["CAAP Civil Aviation Regulations applicable to Maintenance","Approved Maintenance Data and Manuals (AMM, SRM)","Airworthiness Directives (AD) Compliance","Major vs Minor Repair Classification","Return to Service Requirements"]},
+      {name:"Manufacturing/Production Processes & QA",subs:["Manufacturing Processes: Machining, Casting, Forging, Forming","Sheet Metal Fabrication Techniques","Quality Assurance Systems and Standards (ISO, AS9100)","Inspection Methods and Quality Control","Production Planning and Control"]},
+      {name:"Testing and Inspection",subs:["Hardness Testing of Metals","Non-Destructive Testing: Visual, Dye Penetrant, Magnetic Particle","NDT: Ultrasonic, Radiographic (X-Ray), Eddy Current","Corrosion Types, Protection and Removal"]},
+      {name:"Aircraft Weight and Balance",subs:["Weighing Procedure and Equipment","Weight and Balance Computations","Most Forward and Rearward CG Positions","Weight and Balance Documentation"]},
     ],
-    refs:["Aircraft Materials and Processes — Titterton","Aircraft Inspection and Repair — US Printing Office","Maintenance and Repair of Aerospace Vehicle — McKinley and Bent"],
+    refs:["Aircraft Materials and Processes — Titterton","Aircraft Inspection and Repair — US Printing Office","Maintenance and Repair of Aerospace Vehicles — McKinley & Bent","CAAP Civil Aviation Regulations (CAR)","FAA AC 43.13-1B/2B — Acceptable Methods, Techniques & Practices"],
   },
   {
-    code:"V", weight:"10%", weightNum:10, name:"Engineering Economics, Laws & Ethics", color:"#FB7185", icon:"⬟",
-    objective:"To determine the basic knowledge of the Examinees in Aeronautical Engineering Law and Ethics, and Principles of Engineering Economics and Management.",
+    code:"V",weight:"10%",weightNum:10,name:"Economics, Laws & Ethics",color:"#FB7185",icon:"⬟",
+    objective:"Principles of Economics and Management as Applied to Aviation Industry; Laws, Rules and Regulations Governing the Practice of Aeronautical Engineering including PD 1570, Code of Professional Ethics, and International Aviation Laws.",
     topics:[
-      { name:"Engineering Law and Ethics", subs:["Presidential Decree No. 1570 — All Sections","Implementing Rules and Regulations of PD 1570","Definition of Terms, Registration and Practice of Aeronautical Engineers","Code of Professional Ethics","International Aviation Laws"] },
-      { name:"Engineering Economics and Management", subs:["Air Transport Economics — Interest, Depreciation, Revenue, Expenses, Profit","Break-Even Analysis","Airline Operation — Passenger Load Factor, Revenues, Expenses, Profit","Aviation Industrial Organizations — Airline and Aviation Companies","Research and Development","Aircraft Manufacturing"] },
+      {name:"Engineering Law and Ethics",subs:["Presidential Decree No. 1570 — All Sections","Implementing Rules and Regulations of PD 1570","Definition of Terms, Registration and Practice of Aeronautical Engineers","Code of Professional Ethics of the Board of Aeronautical Engineering","International Aviation Laws (Chicago Convention, ICAO)"]},
+      {name:"Engineering Economics & Management",subs:["Air Transport Economics — Interest, Depreciation, Revenue, Expenses, Profit","Break-Even Analysis","Airline Operation — Passenger Load Factor, Revenues, Expenses","Aviation Industrial Organizations — Airline and Aviation Companies","Research and Development in Aerospace","Aircraft Manufacturing Organizations"]},
     ],
     refs:["Presidential Decree No. 1570","Implementing Rules and Regulations of PD 1570","Republic Act 776","Engineering Economy (6th Ed.) — Garmo, Canada, Sullivan","Production Operations & Management — Any Author","Management Theory & Practice — Any Author"],
   },
   {
-    code:"VI", weight:"10%", weightNum:10, name:"Mathematics", color:"#FBBF24", icon:"∑",
-    objective:"To determine the basic knowledge of the Examinees in Mathematics as an indispensable tool in Aeronautical Engineering Computations.",
+    code:"VI",weight:"10%",weightNum:10,name:"Mathematics",color:"#FBBF24",icon:"∑",
+    objective:"Mathematics as an indispensable tool in Aeronautical Engineering Computations — Algebra, Trigonometry, Analytic Geometry, Calculus and Differential Equations with Aeronautical Engineering Applications.",
     topics:[
-      { name:"Algebra and Trigonometry", subs:["Algebraic Functions, Equations, and various Algebraic Operations","Trigonometric Functions, Plane and Spherical Trigonometry, and other Topics","Problems in Aeronautical Engineering"] },
-      { name:"Analytic Geometry", subs:["Coordinate Systems, Equations of Lines","Conic Sections, Transformation of Coordinates, and other Topics","Problems in Aeronautical Engineering"] },
-      { name:"Calculus and Differential Equations", subs:["Differential Methods and Derivatives","Integration Methods and Integrals","Ordinary, Linear, and Partial Differentials","Problems in Aeronautical Engineering"] },
+      {name:"Algebra and Trigonometry",subs:["Algebraic Functions, Equations, and Algebraic Operations","Trigonometric Functions, Plane Trigonometry","Spherical Trigonometry and other Topics","Problems in Aeronautical Engineering Applications"]},
+      {name:"Analytic Geometry",subs:["Coordinate Systems, Equations of Lines","Conic Sections — Circle, Ellipse, Parabola, Hyperbola","Transformation of Coordinates and other Topics","Problems in Aeronautical Engineering Applications"]},
+      {name:"Calculus and Differential Equations",subs:["Differential Methods and Derivatives","Integration Methods and Integrals","Ordinary, Linear, and Partial Differential Equations","Problems in Aeronautical Engineering Applications"]},
     ],
     refs:["College Algebra — Any Author","Plane and Spherical Trigonometry — Any Author","Analytic Geometry — Any Author","Differential and Integral Calculus — Any Author","Differential Equations — Any Author"],
   },
 ];
 
-// ── STATE ──
-const STORAGE_KEY = 'aele_checked_v1';
+// ═══════════════════════════════════════════
+// QUIZ QUESTIONS — From FEATI, PHILSCA, PATTS,
+// WIZ Academy, Aero Horizon mock exams
+// ═══════════════════════════════════════════
+const QUIZ = [
+  // ── AERODYNAMICS ──
+  {s:0,topic:"Fluid Laws",q:"Which statement correctly relates to Bernoulli's principle?",opts:["For every action there is an equal and opposite reaction","An additional upward force is generated as the lower surface of the wing deflects air downward","Air traveling faster over the curved upper surface of an airfoil causes lower pressure on top","Air traveling faster over the curved upper surface of an airfoil causes higher pressure on top"],a:2,exp:"Bernoulli's principle states that an increase in fluid speed occurs simultaneously with a decrease in pressure. Faster airflow over the curved upper surface creates lower pressure, generating lift."},
+  {s:0,topic:"Airplane Aerodynamics",q:"Low induced drag can be obtained by using:",opts:["High wing aspect ratio","Low wing aspect ratio","Constant wing chord","Constant wing area"],a:0,exp:"Induced drag is inversely proportional to aspect ratio. A high aspect ratio wing (long and narrow) produces less induced drag because the wingtip vortices are weaker relative to the total wing area."},
+  {s:0,topic:"Airplane Aerodynamics",q:"Rate of descent is minimized when:",opts:["Parasite drag equals induced drag","Parasite drag equals one-third induced drag","Induced drag equals one-third parasite drag","Lift-to-drag ratio is maximum"],a:3,exp:"Minimum rate of descent (best glide) occurs at maximum L/D ratio. This corresponds to the speed where total drag is minimum."},
+  {s:0,topic:"Standard Atmosphere",q:"In the International Standard Atmosphere (ISA), the temperature lapse rate in the troposphere is:",opts:["1.98°C per 1,000 ft","2.5°C per 1,000 ft","3°C per 1,000 ft","0°C (isothermal)"],a:0,exp:"The ISA standard lapse rate is approximately 1.98°C (or 2°C) per 1,000 ft (6.5°C per 1,000 m) in the troposphere up to the tropopause at approximately 36,089 ft."},
+  {s:0,topic:"Airplane Aerodynamics",q:"The maximum range of a propeller-driven aircraft is achieved when flying at:",opts:["Maximum L/D ratio speed","Minimum power required speed","Maximum endurance speed","Stall speed"],a:0,exp:"For propeller aircraft, maximum range occurs at maximum L/D ratio. For jet aircraft, maximum range occurs at a different condition (maximum V×L/D)."},
+  {s:0,topic:"Fluid Laws",q:"The continuity equation for incompressible flow states that:",opts:["Pressure times velocity is constant","Density times velocity is constant","Area times velocity is constant","Force times velocity is constant"],a:2,exp:"The continuity equation A₁V₁ = A₂V₂ states that for incompressible flow, the product of cross-sectional area and velocity is constant (conservation of mass)."},
+  {s:0,topic:"Airplane Aerodynamics",q:"What type of stability resists rotation about the longitudinal axis?",opts:["Longitudinal stability","Lateral stability","Directional stability","Dynamic stability"],a:1,exp:"Lateral stability (roll stability) resists rotation about the longitudinal axis (rolling motion). It is primarily provided by dihedral angle, wing sweep, and high wing placement."},
+  {s:0,topic:"Helicopter Aerodynamics",q:"Torque reaction in a single-rotor helicopter tends to rotate the fuselage:",opts:["In the same direction as the main rotor","Opposite to the direction of main rotor rotation","Upward along the rotor axis","Downward along the rotor axis"],a:1,exp:"Newton's third law: the torque applied to the rotor by the engine causes an equal and opposite reaction on the fuselage, trying to rotate it opposite to the main rotor direction."},
+
+  // ── POWERPLANT ──
+  {s:1,topic:"Rocket Propulsion",q:"The measurement of efficiency of a rocket engine-propellant combination is known as:",opts:["Propulsive efficiency","Rocket efficiency","Specific thrust","Specific impulse"],a:3,exp:"Specific impulse (Isp) measures the thrust produced per unit weight of propellant consumed per unit time. It is the primary measure of rocket engine efficiency, expressed in seconds."},
+  {s:1,topic:"Aircraft Reciprocating Engines",q:"The maximum power is normally considered to be developed in a reciprocating engine with a fuel-air mixture ratio of approximately:",opts:["10:1","12:1","8:1","15:1"],a:0,exp:"Maximum power (rich best power mixture) is achieved at approximately 10:1 air-fuel ratio (slightly rich of stoichiometric ~15:1). This provides maximum heat release per cycle."},
+  {s:1,topic:"Aircraft Gas Turbine Engines",q:"A type of engine control wherein the hydromechanical fuel control unit controls most engine operations including starting, idle, acceleration, and touchdown is:",opts:["Fuel Control Unit (FCU)","Supervisory Electronic Engine Control (EEC)","Full Authority Digital Engine Control (FADEC)","Engine Indicating and Crew Alerting System (EICAS)"],a:1,exp:"Supervisory EEC monitors and trims the hydromechanical FCU. FADEC replaces the hydromechanical system entirely with digital electronic control with full authority over all engine parameters."},
+  {s:1,topic:"Other Aircraft Power Systems",q:"A type of propeller force that tends to increase propeller blade angle is:",opts:["Centripetal force","Thrust bending force","Centrifugal twisting force","Aerodynamic twisting force"],a:3,exp:"Aerodynamic twisting force (ATF) acts to increase blade pitch angle because the center of pressure of the blade is ahead of the pitch change axis. Centrifugal twisting force acts to decrease blade angle."},
+  {s:1,topic:"Other Aircraft Power Systems",q:"A propeller produces thrust by means of a large mass flow rate with a small jet velocity (Vj < Va). Its propulsive efficiency is therefore:",opts:["High","Low","Zero","Constant"],a:0,exp:"Propulsive efficiency η = 2Va/(Va+Vj). When Vj is close to Va (small velocity increase over a large mass flow), propulsive efficiency approaches 100%. Propellers are more efficient than jets at low speeds."},
+  {s:1,topic:"Thermodynamics Fundamentals",q:"Which of the following is an example of an isothermal process?",opts:["A gas is compressed in a piston (adiabatic)","A gas is heated at constant pressure","A gas is heated at constant volume","A gas expands very slowly in a cylinder with thin walls"],a:3,exp:"An isothermal process occurs at constant temperature. Very slow expansion with heat exchange through thin walls allows the gas to remain in thermal equilibrium with surroundings. Options A (adiabatic), B (isobaric), C (isochoric) are different processes."},
+  {s:1,topic:"Aircraft Gas Turbine Engines",q:"These are normally performed after an engine or fuel control unit is changed, or whenever an engine does not produce its maximum thrust:",opts:["Engine trimming","EGT and Tachometer check","Trend Analysis","Spectrometric Oil Analysis Program (SOAP)"],a:0,exp:"Engine trimming adjusts the fuel control unit to ensure the engine produces its rated maximum thrust. It is required after FCU replacement or any time rated performance cannot be achieved."},
+  {s:1,topic:"Other Aircraft Power Systems",q:"A propeller force that tends to bend the blades opposite the direction of rotation is:",opts:["Thrust bending force","Torque bending force","Aerodynamic twisting force","Centrifugal force"],a:1,exp:"Torque bending force is caused by air resistance opposing rotational motion of the propeller blades. It tends to bend the blades opposite to the direction of rotation (rearward in the plane of rotation)."},
+
+  // ── STRUCTURES ──
+  {s:2,topic:"Structural Loading Conditions",q:"The V-n diagram (flight envelope) shows the relationship between:",opts:["Velocity and altitude","Velocity and load factor","Lift and drag","Thrust and weight"],a:1,exp:"The V-n diagram plots aircraft velocity (V) against load factor (n). It defines the structural and aerodynamic limits within which the aircraft can safely operate, including maneuver and gust envelopes."},
+  {s:2,topic:"Fundamental Principles",q:"Margin of Safety (MS) in aircraft structures is defined as:",opts:["(Allowable Load / Applied Load) - 1","Applied Load / Allowable Load","Allowable Load - Applied Load","(Applied Load / Allowable Load) + 1"],a:0,exp:"Margin of Safety = (Allowable Load / Applied Load) - 1, or equivalently = (Allowable Stress / Applied Stress) - 1. A positive MS means the structure is adequate; MS = 0 means exactly at limit."},
+  {s:2,topic:"Aircraft Design Configuration",q:"The neutral point of an aircraft is:",opts:["The center of gravity location","The aerodynamic center of the whole aircraft","The center of pressure of the wing","The point where lift equals weight"],a:1,exp:"The neutral point is the aerodynamic center of the complete aircraft (including tail). Static longitudinal stability requires the center of gravity to be forward of the neutral point."},
+  {s:2,topic:"Structural Loading Conditions",q:"A limit load is defined as the:",opts:["Maximum load expected in service","Maximum load multiplied by the factor of safety","Load at which the structure fails","Load that causes permanent deformation"],a:0,exp:"Limit load is the maximum load expected in normal service operations. Ultimate load = Limit load × Factor of Safety (typically 1.5). The structure must carry ultimate load without failure."},
+
+  // ── CONSTRUCTION/REPAIR ──
+  {s:3,topic:"Aircraft Materials and Processes",q:"The most commonly used aluminum alloy in aircraft primary structure due to its high strength-to-weight ratio is:",opts:["2024-T3","6061-T6","7075-T6","3003-H14"],a:2,exp:"7075-T6 has the highest strength of common aircraft aluminum alloys (~83 ksi tensile). 2024-T3 is used where fatigue resistance is critical (fuselage skin). 6061 is used for less-critical structures."},
+  {s:3,topic:"Testing and Inspection",q:"Which NDT method is most suitable for detecting surface and near-surface cracks in ferromagnetic materials?",opts:["Ultrasonic Testing","Radiographic Testing (X-Ray)","Magnetic Particle Inspection","Dye Penetrant Inspection"],a:2,exp:"Magnetic Particle Inspection (MPI) is ideal for ferromagnetic materials — it reveals surface and near-surface discontinuities by attracting magnetic particles to flux leakage fields at cracks."},
+  {s:3,topic:"Civil Airworthiness Regulations",q:"Republic Act No. 9497 is also known as the:",opts:["Civil Aeronautics Board Act of 2008","Civil Aviation Act of 2008","Civil Aeronautics Act of 2008","Civil Aviation Authority Act of 2008"],a:3,exp:"RA 9497, enacted in 2008, is the Civil Aviation Authority Act of the Philippines. It created the Civil Aviation Authority of the Philippines (CAAP) and abolished the Air Transportation Office (ATO)."},
+  {s:3,topic:"Aircraft Weight and Balance",q:"The maximum certificated take-off weight for airplanes under the Normal, Utility, and Acrobatic categories is:",opts:["5,700 kg","12,500 lbs (5,670 kg)","19,000 lbs","8,000 kg"],a:1,exp:"Under FAR/CAAP regulations, the maximum certificated weight for Normal, Utility, and Acrobatic category airplanes is 12,500 lbs (approximately 5,670 kg). Above this weight, aircraft are Transport category."},
+  {s:3,topic:"Manufacturing/Production Processes & QA",q:"Which quality assurance standard is most widely used in the aerospace manufacturing industry?",opts:["ISO 9001","AS9100","ISO 14001","MIL-STD-1520"],a:1,exp:"AS9100 is the quality management system standard specific to the aviation, space, and defense industry. It is based on ISO 9001 but includes additional aerospace-specific requirements for safety and reliability."},
+
+  // ── ECONOMICS/LAW ──
+  {s:4,topic:"Engineering Law and Ethics",q:"Presidential Decree No. 1570 governs:",opts:["Air transport operations in the Philippines","The practice of Aeronautical Engineering in the Philippines","Civil aviation safety standards","Aircraft airworthiness certification"],a:1,exp:"PD 1570, signed in 1978, is the Aeronautical Engineering Law of the Philippines. It governs the practice of aeronautical engineering, defines the Board of Aeronautical Engineering, licensing requirements, and the Code of Professional Ethics."},
+  {s:4,topic:"Engineering Economics & Management",q:"An imaginary cost representing what will NOT be received if a particular strategy is rejected is called:",opts:["Opportunity cost","Sunk cost","Initial cost","Replacement cost"],a:0,exp:"Opportunity cost is the value of the best alternative foregone. It represents the potential benefit missed by choosing one option over another. Sunk cost is already spent and irrecoverable."},
+  {s:4,topic:"Engineering Economics & Management",q:"The title of Republic Act 776 is the:",opts:["Civil Aviation Authority Act of the Philippines","Civil Aeronautics Authority Act of the Philippines","Civil Aeronautics Act of the Philippines","Air Transportation Act of the Philippines"],a:2,exp:"RA 776 is the Civil Aeronautics Act of the Philippines. It established the Civil Aeronautics Administration (CAA) and the Civil Aeronautics Board (CAB). It was later amended by RA 9497 (CAAP Act of 2008)."},
+  {s:4,topic:"Engineering Law and Ethics",q:"The 'estimated total time' in Block 16 of a VFR flight plan is the estimated time:",opts:["Required from take-off to arrive overhead the destination airport","Of endurance at cruising power considering pressure and temperature","From engine start to engine shutdown","From take-off to landing, including alternate"],a:0,exp:"Block 16 of ICAO Flight Plan (and VFR flight plans) calls for the total estimated elapsed time from take-off to arrival overhead the destination airport, in hours and minutes (HHMM format)."},
+
+  // ── MATHEMATICS ──
+  {s:5,topic:"Algebra and Trigonometry",q:"In a right triangle, the sine of an angle is 3/5. What is the cosine of that angle?",opts:["4/5","3/4","5/3","5/4"],a:0,exp:"Using the Pythagorean theorem: if sin θ = 3/5, then opposite = 3, hypotenuse = 5, so adjacent = √(25-9) = 4. Therefore cos θ = adjacent/hypotenuse = 4/5."},
+  {s:5,topic:"Calculus and Differential Equations",q:"The derivative of f(x) = x³ - 6x² + 9x + 1 equals zero at x =",opts:["x = 1 and x = 3","x = 2 and x = 4","x = 0 and x = 3","x = 1 and x = 9"],a:0,exp:"f'(x) = 3x² - 12x + 9 = 3(x² - 4x + 3) = 3(x-1)(x-3) = 0. Therefore x = 1 and x = 3 are the critical points where the derivative equals zero."},
+  {s:5,topic:"Analytic Geometry",q:"What is the equation of a circle with center (3, -2) and radius 5?",opts:["(x-3)² + (y+2)² = 25","(x+3)² + (y-2)² = 25","(x-3)² + (y-2)² = 5","(x+3)² + (y+2)² = 25"],a:0,exp:"Standard form of a circle: (x-h)² + (y-k)² = r². With center (h,k) = (3,-2) and radius r = 5: (x-3)² + (y-(-2))² = 5², giving (x-3)² + (y+2)² = 25."},
+  {s:5,topic:"Algebra and Trigonometry",q:"If an aircraft climbs at a 15° angle over a ground distance of 5,000 ft, what is the altitude gained?",opts:["1,294 ft","4,830 ft","5,176 ft","1,340 ft"],a:3,exp:"Altitude = ground distance × tan(15°) = 5,000 × tan(15°) = 5,000 × 0.2679 ≈ 1,340 ft. The climb angle forms the angle between the flight path and the horizontal."},
+];
+
+// ═══════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════
+const STORAGE_KEY = 'aele_checked_v2';
 let checked = {};
-try { checked = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e){}
-let expanded = {};
-let refsOpen = {};
-let activeSubject = 0;
+try { checked = JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}'); } catch(e){}
 
-const totalSubs = SUBJECTS.reduce((a,s) => a + s.topics.reduce((b,t) => b + t.subs.length, 0), 0);
+let expanded = {}, refsOpen = {}, activeSubject = 0;
+let currentScreen = 'review'; // 'review' | 'quiz' | 'results'
 
-function saveChecked() {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(checked)); } catch(e){}
-}
+// Quiz state
+let quizFilters = new Set([0,1,2,3,4,5]);
+let quizCount = 20;
+let quizQueue = [], quizIndex = 0, quizAnswered = false;
+let quizScores = {correct:0, wrong:0, perSubject:{}};
+
+const totalSubs = SUBJECTS.reduce((a,s) => a + s.topics.reduce((b,t) => b + t.subs.length,0),0);
+
+function saveChecked() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(checked)); } catch(e){} }
 
 function subjectProgress(si) {
   const s = SUBJECTS[si];
   const total = s.topics.reduce((a,t) => a + t.subs.length, 0);
   const done = s.topics.reduce((a,t,ti) => a + t.subs.filter((_,xi) => checked[`${si}-${ti}-${xi}`]).length, 0);
-  return { done, total, pct: total ? Math.round(done/total*100) : 0 };
+  return {done, total, pct: total ? Math.round(done/total*100) : 0};
 }
 
 function overallProgress() {
   const done = Object.values(checked).filter(Boolean).length;
-  return { done, total: totalSubs, pct: Math.round(done/totalSubs*100) };
+  return {done, total: totalSubs, pct: Math.round(done/totalSubs*100)};
 }
 
-// ── RENDER ──
 function hexAlpha(hex, a) {
-  const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+  const r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16);
   return `rgba(${r},${g},${b},${a})`;
 }
 
+// ═══════════════════════════════════════
+// RENDER HEADER + NAV
+// ═══════════════════════════════════════
 function renderHeader() {
   const s = SUBJECTS[activeSubject];
-  document.getElementById('header').style.borderBottomColor = s.color;
-  document.getElementById('header-accent').style.color = s.color;
+  const isQuiz = currentScreen !== 'review';
+  document.getElementById('header').style.borderBottomColor = isQuiz ? '#FB7185' : s.color;
+  document.getElementById('header-accent').style.color = isQuiz ? '#FB7185' : s.color;
+  document.getElementById('header-accent').textContent = isQuiz ? (currentScreen === 'results' ? 'Quiz Results' : 'Quiz Mode') : 'Review Plan';
 
-  const { done, total, pct } = overallProgress();
-  const r = 23, circ = 2 * Math.PI * r;
+  const {done, total, pct} = overallProgress();
+  const r = 23, circ = 2*Math.PI*r;
   const fill = document.getElementById('ring-fill');
-  fill.style.stroke = s.color;
+  fill.style.stroke = isQuiz ? '#FB7185' : s.color;
   fill.setAttribute('stroke-dasharray', circ);
-  fill.setAttribute('stroke-dashoffset', circ * (1 - pct/100));
-  document.getElementById('ring-text').textContent = pct + '%';
+  fill.setAttribute('stroke-dashoffset', circ*(1-pct/100));
+  document.getElementById('ring-text').textContent = pct+'%';
   document.getElementById('ring-label').textContent = `${done}/${total}`;
 
   const bar = document.getElementById('weight-bar');
@@ -322,8 +380,8 @@ function renderHeader() {
     const seg = document.createElement('div');
     seg.className = 'wb-seg';
     seg.style.flex = sb.weightNum;
-    seg.style.background = i === activeSubject ? sb.color : hexAlpha(sb.color, 0.25);
-    seg.onclick = () => switchSubject(i);
+    seg.style.background = i === activeSubject && !isQuiz ? sb.color : hexAlpha(sb.color, 0.25);
+    seg.onclick = () => { if(currentScreen==='review') switchSubject(i); };
     bar.appendChild(seg);
   });
 }
@@ -332,55 +390,63 @@ function renderNav() {
   const nav = document.getElementById('bottom-nav');
   nav.innerHTML = '';
   SUBJECTS.forEach((s, i) => {
-    const { pct } = subjectProgress(i);
+    const {pct} = subjectProgress(i);
+    const isActive = currentScreen==='review' && activeSubject===i;
     const btn = document.createElement('button');
-    btn.className = 'nav-btn' + (i === activeSubject ? ' active' : '');
-    btn.style.borderTopColor = i === activeSubject ? s.color : 'transparent';
+    btn.className = 'nav-btn' + (isActive ? ' active' : '');
+    btn.style.borderTopColor = isActive ? s.color : 'transparent';
     btn.innerHTML = `
-      <div class="nav-icon" style="color:${i===activeSubject?s.color:'#444466'}">${s.icon}</div>
+      <div class="nav-icon" style="color:${isActive?s.color:'#444466'}">${s.icon}</div>
       <div class="nav-label">${s.code}</div>
-      <div class="nav-dot" style="background:${pct>0?s.color:'#333350'};opacity:${pct>0?1:0.4}"></div>
-    `;
-    btn.onclick = () => switchSubject(i);
+      <div class="nav-dot" style="background:${pct>0?s.color:'#333350'};opacity:${pct>0?1:0.4}"></div>`;
+    btn.onclick = () => { currentScreen='review'; switchSubject(i); };
     nav.appendChild(btn);
   });
+  // Quiz button
+  const qbtn = document.createElement('button');
+  const isQActive = currentScreen !== 'review';
+  qbtn.className = 'nav-btn' + (isQActive ? ' active' : '');
+  qbtn.style.borderTopColor = isQActive ? '#FB7185' : 'transparent';
+  qbtn.innerHTML = `
+    <div class="nav-icon" style="color:${isQActive?'#FB7185':'#444466'}">✦</div>
+    <div class="nav-label" style="color:${isQActive?'#F0EEFF':''}">Quiz</div>
+    <div class="nav-quiz-badge">${QUIZ.length}Q</div>`;
+  qbtn.onclick = () => showQuizSetup();
+  nav.appendChild(qbtn);
 }
 
+// ═══════════════════════════════════════
+// REVIEW SCREEN
+// ═══════════════════════════════════════
 function renderSubject() {
   const si = activeSubject;
   const s = SUBJECTS[si];
   const view = document.getElementById('subject-view');
+  view.className = 'anim';
+  setTimeout(() => view.className = '', 300);
 
-  // Re-trigger animation
-  view.style.animation = 'none';
-  view.offsetHeight;
-  view.style.animation = '';
-
-  let html = `
-    <div id="subj-header" style="border-bottom:1px solid ${hexAlpha(s.color,.2)}">
-      <div id="subj-header-row">
-        <div id="subj-icon" style="color:${s.color}">${s.icon}</div>
-        <div>
-          <div id="subj-badge">Subject ${s.code} · ${s.weight} of Exam</div>
-          <div id="subj-name">${s.name}</div>
-        </div>
+  let html = `<div id="subj-header" style="border-bottom:1px solid ${hexAlpha(s.color,.2)}">
+    <div id="subj-header-row">
+      <div id="subj-icon" style="color:${s.color}">${s.icon}</div>
+      <div>
+        <div id="subj-badge">Subject ${s.code} · ${s.weight} of Exam</div>
+        <div id="subj-name">${s.name}</div>
       </div>
-      <div id="subj-obj">${s.objective}</div>
     </div>
-  `;
+    <div id="subj-obj">${s.objective}</div>
+  </div>`;
 
   s.topics.forEach((topic, ti) => {
     const tKey = `${si}-${ti}`;
     const isOpen = !!expanded[tKey];
     const done = topic.subs.filter((_,xi) => checked[`${si}-${ti}-${xi}`]).length;
     const complete = done === topic.subs.length;
-    const pct = done / topic.subs.length * 100;
-
-    html += `<div class="topic-card${isOpen?' open':''}" data-tkey="${tKey}">
+    const pct = done/topic.subs.length*100;
+    html += `<div class="topic-card${isOpen?' open':''}" id="tc-${tKey}">
       <button class="topic-btn" onclick="toggleTopic('${tKey}')">
         <div class="topic-btn-left">
           <div class="topic-num${complete?' done':''}" style="${complete?`background:${s.color};color:#0E0E16`:''}">
-            ${complete ? '✓' : ti+1}
+            ${complete?'✓':ti+1}
           </div>
           <div class="topic-name">${topic.name}</div>
         </div>
@@ -394,14 +460,13 @@ function renderSubject() {
     </div>`;
   });
 
-  // References
   const rOpen = !!refsOpen[si];
   html += `<div class="refs-card${rOpen?' refs-open':''}">
     <button class="refs-btn" onclick="toggleRefs(${si})">
       <span>📚 References (${s.refs.length})</span>
       <span class="refs-chevron">▾</span>
     </button>
-    ${rOpen ? `<div class="refs-body">${s.refs.map((r,i)=>`<div class="ref-item">${i+1}. ${r}</div>`).join('')}</div>` : ''}
+    ${rOpen?`<div class="refs-body">${s.refs.map((r,i)=>`<div class="ref-item">${i+1}. ${r}</div>`).join('')}</div>`:''}
   </div>`;
 
   view.innerHTML = html;
@@ -411,28 +476,213 @@ function renderSubject() {
 function renderSubtopics(si, ti) {
   const s = SUBJECTS[si];
   const topic = s.topics[ti];
-  let html = `<div class="subtopics">`;
-  topic.subs.forEach((sub, xi) => {
-    const ck = `${si}-${ti}-${xi}`;
-    const isDone = !!checked[ck];
-    html += `<div class="sub-item" onclick="toggleCheck('${ck}',${si})">
-      <div class="sub-check${isDone?' checked':''}" style="${isDone?`background:${s.color};border-color:${s.color}`:''}">
+  return `<div class="subtopics">${topic.subs.map((sub,xi) => {
+    const ck = `${si}-${ti}-${xi}`, isDone = !!checked[ck];
+    return `<div class="sub-item" onclick="toggleCheck('${ck}',${si})">
+      <div class="sub-check" style="${isDone?`background:${s.color};border-color:${s.color}`:''}">
         ${isDone?'✓':''}
       </div>
       <span class="sub-label${isDone?' done':''}">${sub}</span>
     </div>`;
-  });
-  html += `</div>`;
-  return html;
+  }).join('')}</div>`;
 }
 
-// ── ACTIONS ──
+// ═══════════════════════════════════════
+// QUIZ SCREEN
+// ═══════════════════════════════════════
+function showQuizSetup() {
+  currentScreen = 'quiz';
+  document.getElementById('subject-view').style.display = 'none';
+  document.getElementById('quiz-results').className = '';
+  const qv = document.getElementById('quiz-view');
+  qv.className = 'active anim';
+  setTimeout(() => qv.className = 'active', 300);
+  renderQuizSetup();
+  renderHeader(); renderNav();
+  document.getElementById('scroll-area').scrollTop = 0;
+}
+
+function renderQuizSetup() {
+  const qv = document.getElementById('quiz-view');
+  const filterBtns = SUBJECTS.map((s,i) => {
+    const on = quizFilters.has(i);
+    return `<button class="filter-chip${on?' on':''}" style="${on?`color:${s.color};border-color:${s.color};background:${hexAlpha(s.color,.1)}`:''}" onclick="toggleFilter(${i})">${s.icon} ${s.code}</button>`;
+  }).join('');
+  const countBtns = [10,20,30].map(n =>
+    `<button class="count-btn${quizCount===n?' on':''}" onclick="setCount(${n})">${n} Qs</button>`
+  ).join('');
+  const available = QUIZ.filter(q => quizFilters.has(q.s)).length;
+  qv.innerHTML = `<div id="quiz-setup">
+    <div class="setup-title">✦ Quiz Mode</div>
+    <div class="setup-sub">Practice questions from FEATI, PHILSCA, PATTS & WIZ Academy mock exams</div>
+    <div class="setup-section">Filter by Subject</div>
+    <div class="filter-row">${filterBtns}</div>
+    <div class="setup-section" style="margin-top:12px">Number of Questions</div>
+    <div class="count-row">${countBtns}</div>
+    <div style="font-size:10px;color:var(--text4);font-family:monospace;margin-top:6px">${available} questions available for selected subjects</div>
+    <div class="quiz-actions" style="margin-top:8px">
+      <button class="btn-primary" style="background:#FB7185;color:#0E0E16" onclick="startQuiz()">Start Quiz →</button>
+      <button class="btn-secondary" onclick="backToReview()">← Review</button>
+    </div>
+  </div>`;
+}
+
+function toggleFilter(i) {
+  if (quizFilters.has(i)) { if(quizFilters.size > 1) quizFilters.delete(i); }
+  else quizFilters.add(i);
+  renderQuizSetup();
+}
+function setCount(n) { quizCount = n; renderQuizSetup(); }
+
+function startQuiz() {
+  let pool = QUIZ.filter(q => quizFilters.has(q.s));
+  // shuffle
+  for (let i = pool.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  quizQueue = pool.slice(0, Math.min(quizCount, pool.length));
+  quizIndex = 0; quizAnswered = false;
+  quizScores = {correct:0, wrong:0, perSubject:{}};
+  SUBJECTS.forEach((_,i) => quizScores.perSubject[i] = {correct:0,total:0});
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const qv = document.getElementById('quiz-view');
+  if (quizIndex >= quizQueue.length) { showResults(); return; }
+  const q = quizQueue[quizIndex];
+  const s = SUBJECTS[q.s];
+  const pct = (quizIndex/quizQueue.length*100).toFixed(0);
+  quizAnswered = false;
+
+  const opts = q.opts.map((o,i) =>
+    `<button class="quiz-opt" id="qopt-${i}" onclick="answerQuiz(${i})">
+      <div class="quiz-opt-letter">${'ABCD'[i]}</div>
+      <div class="quiz-opt-text">${o}</div>
+    </button>`
+  ).join('');
+
+  qv.innerHTML = `
+    <div class="quiz-header-bar">
+      <span style="font-size:10px;color:var(--text4);font-family:monospace">${quizIndex+1} / ${quizQueue.length}</span>
+      <button class="btn-secondary" style="padding:6px 10px;font-size:11px" onclick="showQuizSetup()">✕ End</button>
+    </div>
+    <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:${pct}%;background:${s.color}"></div></div>
+    <div class="quiz-card">
+      <span class="quiz-subject-tag" style="background:${hexAlpha(s.color,.15)};color:${s.color}">${s.icon} ${s.name}</span>
+      <div class="quiz-qnum">${q.topic}</div>
+      <div class="quiz-question">${q.q}</div>
+      <div class="quiz-options">${opts}</div>
+      <div class="quiz-explanation" id="quiz-exp">${q.exp}</div>
+    </div>
+    <div class="quiz-actions" id="quiz-actions" style="display:none">
+      <button class="btn-primary" style="background:${s.color};color:#0E0E16" onclick="nextQuestion()">
+        ${quizIndex+1 < quizQueue.length ? 'Next Question →' : 'See Results →'}
+      </button>
+    </div>`;
+}
+
+function answerQuiz(chosen) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  const q = quizQueue[quizIndex];
+  const correct = q.a;
+  quizScores.perSubject[q.s].total++;
+
+  document.querySelectorAll('.quiz-opt').forEach((el, i) => {
+    el.onclick = null;
+    if (i === correct) el.classList.add(chosen === correct ? 'correct' : 'reveal-correct');
+    else if (i === chosen && chosen !== correct) el.classList.add('wrong');
+  });
+
+  if (chosen === correct) {
+    quizScores.correct++;
+    quizScores.perSubject[q.s].correct++;
+  } else {
+    quizScores.wrong++;
+  }
+
+  document.getElementById('quiz-exp').classList.add('show');
+  document.getElementById('quiz-actions').style.display = 'flex';
+}
+
+function nextQuestion() {
+  quizIndex++;
+  renderQuestion();
+  document.getElementById('scroll-area').scrollTop = 0;
+}
+
+function showResults() {
+  currentScreen = 'results';
+  document.getElementById('quiz-view').className = '';
+  const rr = document.getElementById('quiz-results');
+  rr.className = 'show anim';
+  setTimeout(() => rr.className = 'show', 300);
+
+  const total = quizScores.correct + quizScores.wrong;
+  const pct = total ? Math.round(quizScores.correct/total*100) : 0;
+  const color = pct >= 75 ? '#4ADE80' : pct >= 50 ? '#FBBF24' : '#FB7185';
+  const label = pct >= 75 ? '✓ Passing' : pct >= 50 ? '~ Near Passing' : '✗ Needs Work';
+
+  let perSub = '';
+  SUBJECTS.forEach((s,i) => {
+    const ps = quizScores.perSubject[i];
+    if (!ps.total) return;
+    const spct = Math.round(ps.correct/ps.total*100);
+    perSub += `<div class="rps-row">
+      <div class="rps-name">${s.icon} ${s.name.split(' ')[0]}</div>
+      <div class="rps-bar-wrap"><div class="rps-bar" style="width:${spct}%;background:${s.color}"></div></div>
+      <div class="rps-score" style="color:${s.color}">${ps.correct}/${ps.total}</div>
+    </div>`;
+  });
+
+  rr.innerHTML = `
+    <div class="result-card">
+      <div class="result-score" style="color:${color}">${pct}%</div>
+      <div class="result-label">${label} · ${quizScores.correct} correct of ${total} questions</div>
+      <div class="result-breakdown">
+        <div class="rb-item" style="background:rgba(74,222,128,.1)">
+          <div class="rb-num" style="color:#4ADE80">${quizScores.correct}</div>
+          <div class="rb-label">Correct</div>
+        </div>
+        <div class="rb-item" style="background:rgba(251,113,133,.1)">
+          <div class="rb-num" style="color:#FB7185">${quizScores.wrong}</div>
+          <div class="rb-label">Wrong</div>
+        </div>
+        <div class="rb-item" style="background:rgba(251,191,36,.1)">
+          <div class="rb-num" style="color:#FBBF24">${total}</div>
+          <div class="rb-label">Total</div>
+        </div>
+      </div>
+    </div>
+    <div class="result-card">
+      <div style="font-size:11px;color:var(--text4);font-family:monospace;text-transform:uppercase;letter-spacing:.15em;margin-bottom:10px">By Subject</div>
+      <div class="result-per-subject">${perSub}</div>
+    </div>
+    <div class="quiz-actions">
+      <button class="btn-primary" style="background:#FB7185;color:#0E0E16" onclick="startQuiz()">Retry Quiz</button>
+      <button class="btn-secondary" onclick="showQuizSetup()">New Setup</button>
+    </div>
+    <div style="padding-bottom:8px"></div>`;
+
+  renderHeader(); renderNav();
+  document.getElementById('scroll-area').scrollTop = 0;
+}
+
+// ═══════════════════════════════════════
+// ACTIONS
+// ═══════════════════════════════════════
 function switchSubject(i) {
   activeSubject = i;
-  renderHeader();
-  renderNav();
-  renderSubject();
+  currentScreen = 'review';
+  document.getElementById('quiz-view').className = '';
+  document.getElementById('quiz-results').className = '';
+  document.getElementById('subject-view').style.display = '';
+  renderHeader(); renderNav(); renderSubject();
 }
+
+function backToReview() { switchSubject(activeSubject); }
 
 function toggleTopic(tKey) {
   expanded[tKey] = !expanded[tKey];
@@ -442,9 +692,7 @@ function toggleTopic(tKey) {
 function toggleCheck(ck, si) {
   checked[ck] = !checked[ck];
   saveChecked();
-  renderHeader();
-  renderNav();
-  renderSubject();
+  renderHeader(); renderNav(); renderSubject();
 }
 
 function toggleRefs(si) {
@@ -452,18 +700,15 @@ function toggleRefs(si) {
   renderSubject();
 }
 
-// ── INIT ──
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
 function init() {
-  renderHeader();
-  renderNav();
-  renderSubject();
-
-  // Service Worker
+  renderHeader(); renderNav(); renderSubject();
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js').catch(() => {});
+    navigator.serviceWorker.register('./sw.js').catch(()=>{});
   }
 }
-
 init();
 </script>
 </body>
